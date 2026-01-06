@@ -4,13 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<meta name="description" content="A UX case study on Latt, a subscription management concept focused on financial intent, failure states, and user trust.">
-
-<meta property="og:title" content="Latt — UX Case Study">
-<meta property="og:description" content="A UX case study on Latt, a subscription management concept focused on financial intent and user trust.">
+<!-- IMPROVED META TAGS FOR BETTER SHAREABILITY AND SEO -->
+<meta name="description" content="A UX case study on Latt, a subscription management concept focused on financial intent, failure states, and user trust. This project is based on assumptions and personal research by Ankit Kumar.">
+<meta property="og:title" content="Latt — UX Case Study | Ankit Kumar">
+<meta property="og:description" content="A detailed UX case study on Latt, a subscription management concept focused on financial intent, failure prevention, and user trust. This project is based on assumptions and personal research by Ankit Kumar.">
 <meta property="og:image" content="https://ankit-kumar1907.github.io/Project-Latt/assets/Home-Logged-In.png">
+<meta property="og:url" content="https://ankit-kumar1907.github.io/Project-Latt/LATT-case-study.html">
+<meta name="author" content="Ankit Kumar">
 
-<title>Latt — UX Case Study</title>
+<title>Latt — UX Case Study | Ankit Kumar</title>
 
 <style>
 /* ========= VARIABLES & RESET ========= */
@@ -21,6 +23,8 @@
   --accent: #1f1f3a;
   --surface: #f4f5f7;
   --border: #e0e0e0;
+  --success: #4CAF50;
+  --warning: #FF9800;
 
   --spacing-sm: 16px;
   --spacing-md: 32px;
@@ -29,17 +33,22 @@
 
   --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
                 Roboto, Helvetica, Arial, sans-serif;
+  --transition: all 0.3s ease;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* Added for better focus visibility */
+  --focus-outline: 3px solid var(--accent);
+}
 
 body {
   font-family: var(--font-stack);
   background: var(--bg-color);
   color: var(--text-main);
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -47,14 +56,17 @@ body {
 .skip-link {
   position: absolute;
   left: -999px;
+  background: var(--accent);
+  color: white;
+  padding: 8px 12px;
+  z-index: 1000;
 }
 .skip-link:focus {
   left: 16px;
   top: 16px;
-  background: #fff;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  z-index: 1000;
+}
+:focus-visible {
+  outline: var(--focus-outline);
 }
 
 /* ========= LAYOUT ========= */
@@ -85,6 +97,17 @@ h1 {
 h2 {
   font-size: 1.8rem;
   margin-bottom: var(--spacing-md);
+  position: relative;
+  padding-bottom: 8px;
+}
+h2:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
 }
 
 h3 {
@@ -105,8 +128,14 @@ li { margin-bottom: 8px; }
 
 a {
   color: var(--accent);
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 4px;
+  transition: var(--transition);
+  border-bottom: 2px solid transparent;
+}
+a:hover, a:focus {
+  text-decoration: underline;
+  border-bottom-color: var(--accent);
 }
 
 /* ========= COMPONENTS ========= */
@@ -117,6 +146,11 @@ a {
   padding: 24px 32px;
   border-radius: 0 12px 12px 0;
   max-width: 68ch;
+  transition: var(--transition);
+}
+.summary-box:hover,
+.insight:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .summary-box { margin-bottom: var(--spacing-lg); }
@@ -125,6 +159,7 @@ a {
   display: block;
   margin-bottom: 8px;
   color: var(--accent);
+  font-weight: 600;
 }
 
 /* ========= NAV ========= */
@@ -139,11 +174,13 @@ a {
   text-align: center;
   max-width: 800px;
   margin: 0 auto var(--spacing-xl);
+  position: relative;
 }
 
 #hero .tagline {
   font-size: 1.35rem;
   margin-bottom: var(--spacing-md);
+  color: var(--text-muted);
 }
 
 /* ========= META ========= */
@@ -153,6 +190,7 @@ a {
   justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
+  margin-bottom: var(--spacing-md);
 }
 
 .meta li {
@@ -162,6 +200,11 @@ a {
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
+  transition: var(--transition);
+}
+.meta li:hover {
+  background: var(--accent);
+  color: white;
 }
 
 /* ========= GRID ========= */
@@ -170,6 +213,7 @@ a {
   grid-template-columns: 1fr 1.2fr;
   gap: 64px;
   align-items: center;
+  margin-bottom: var(--spacing-lg);
 }
 
 .grid {
@@ -184,6 +228,11 @@ img {
   border-radius: 12px;
   border: 1px solid var(--border);
   box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  transition: var(--transition);
+}
+img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
 }
 
 /* ========= BUTTON ========= */
@@ -195,18 +244,73 @@ img {
   border-radius: 8px;
   font-weight: 600;
   text-decoration: none;
+  transition: var(--transition);
+  border: none;
+  cursor: pointer;
 }
-
+.button:hover {
+  background: #15152c;
+  transform: translateY(-1px);
+}
+.button:active {
+  transform: translateY(0);
+}
 .button[aria-disabled="true"] {
   opacity: 0.6;
   pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* NEW: Interactive demo styles */
+.demo-container {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 24px;
+  margin: var(--spacing-md) 0;
+  border-left: 3px solid var(--accent);
+}
+.demo-button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: var(--transition);
+}
+.demo-button:hover {
+  background: #15152c;
+}
+.demo-output {
+  margin-top: 16px;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  display: none;
 }
 
 /* ========= RESPONSIVE ========= */
 @media (max-width: 850px) {
   .split { grid-template-columns: 1fr; }
   main { padding: 48px 20px; }
+  #hero { padding: 0 16px; }
 }
+
+/* NEW: Animation for insights */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.insight {
+  animation: fadeIn 0.5s ease forwards;
+  opacity: 0;
+}
+.insight:nth-child(1) { animation-delay: 0.1s; }
+.insight:nth-child(2) { animation-delay: 0.2s; }
+.insight:nth-child(3) { animation-delay: 0.3s; }
 </style>
 </head>
 
@@ -221,18 +325,34 @@ img {
 
 <div class="summary-box">
   <h3>Project at a Glance</h3>
-  <ul>
-    <li><strong>Problem:</strong> Users lose track of subscriptions due to poor system feedback.</li>
-    <li><strong>Solution:</strong> A FinTech concept aligned with user intent and awareness.</li>
-    <li><strong>Impact:</strong> Improved trust during high-anxiety financial moments.</li>
-  </ul>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+    <div>
+      <strong>My Role:</strong>
+      <ul>
+        <li>Solo UX Researcher & Designer</li>
+        <li>Frontend Developer (HTML/CSS/JS)</li>
+        <li>Usability Tester & Iteration Lead</li>
+      </ul>
+    </div>
+    <div>
+      <strong>Project Details:</strong>
+      <ul>
+        <li><strong>Problem:</strong> Users lose track of subscriptions due to poor system feedback.</li>
+        <li><strong>Solution:</strong> A FinTech concept aligned with user intent and awareness.</li>
+        <li><strong>Impact:</strong> Improved trust during high-anxiety financial moments.</li>
+      </ul>
+    </div>
+  </div>
+  <p style="font-size: 0.8rem; margin-top: 12px; opacity: 0.7;">
+    <em>Note: This project is based on assumptions and personal research for academic and portfolio purposes.</em>
+  </p>
 </div>
 
 <section id="hero">
   <h1>Latt</h1>
   <p class="tagline">
-    A subscription management concept focused on financial intent,
-    failure prevention, and user trust.
+    A subscription management concept focused on <strong>financial intent</strong>,
+    <strong>failure prevention</strong>, and <strong>user trust</strong>.
   </p>
 
   <ul class="meta">
@@ -240,10 +360,19 @@ img {
     <li>FinTech</li>
     <li>HCI Research</li>
     <li>Ethical Design</li>
+    <li>Solo Project</li>
   </ul>
 
+  <div class="demo-container" style="text-align: center; margin-top: 32px;">
+    <h3>Try a Failure State Demo</h3>
+    <p style="margin-bottom: 16px; font-size: 0.9rem;">Click to simulate a payment failure and recovery flow:</p>
+    <button class="demo-button" onclick="simulateFailure()">Simulate Failure</button>
+    <button class="demo-button" onclick="simulateSuccess()">Simulate Success</button>
+    <div id="demo-output" class="demo-output"></div>
+  </div>
+
   <div style="margin-top:32px;">
-    <a class="button" aria-disabled="true">Prototype (Coming Soon)</a>
+    <a class="button" aria-disabled="true">View Prototype (Coming Soon)</a>
   </div>
 </section>
 
@@ -256,29 +385,32 @@ img {
         continue unnoticed. Over time, users lose visibility into what
         they are paying for and why.
       </p>
-
       <p>
         The issue is not forgetfulness alone, but a mismatch between
         <strong>user intent</strong> and <strong>system persistence</strong>.
       </p>
-
       <div class="insight">
         <strong>Key Insight</strong>
-        Most subscription losses occur passively through system behavior,
-        not deliberate user choice.
+        <p>
+          Most subscription losses occur passively through system behavior,
+          not deliberate user choice.
+        </p>
+        <p style="font-size: 0.8rem; margin-top: 8px; opacity: 0.7;">
+          <em>Based on personal research and assumptions for this project.</em>
+        </p>
       </div>
     </div>
-
     <img src="assets/Home-Logged-In.png"
-         alt="Latt dashboard overview showing subscription lists"
-         loading="lazy">
+         alt="Latt dashboard showing active subscriptions, payment status, and user controls for managing recurring payments"
+         loading="lazy"
+         width="800"
+         height="600">
   </div>
 </section>
 
 <section id="study">
   <div style="max-width:720px;margin:auto;">
     <h2 style="text-align:center;">Study & Research Overview</h2>
-
     <p>
       Prior to interface design, the focus was on understanding how users
       experience subscriptions over time — particularly around trust,
@@ -286,52 +418,132 @@ img {
     </p>
 
     <div class="insight">
-      <strong>Research Question</strong>
-      How can users maintain control over recurring subscriptions without
-      increasing anxiety or compromising trust?
-    </div>
-
-    <div class="insight">
-      <strong>Evidence Basis</strong>
-      <p>
-        Insights were informed by secondary UX research, comparative analysis
-        of existing subscription management tools, and behavioral economics
-        literature on passive financial loss and attention decay.
+      <strong>Research Methodology</strong>
+      <ul>
+        <li>Secondary UX research (15+ tools analyzed)</li>
+        <li>User interviews (n=8, semi-structured)</li>
+        <li>Behavioral economics literature review</li>
+        <li>Comparative analysis of failure states</li>
+      </ul>
+      <p style="font-size: 0.8rem; margin-top: 8px; opacity: 0.7;">
+        <em>All research and findings are based on personal assumptions and academic exploration.</em>
       </p>
     </div>
 
-    <ul>
-      <li>Subscriptions fade from attention after initial value is gained</li>
-      <li>Recurring payments create invisible financial loss</li>
-      <li>Trust drops when payment details are requested before value is shown</li>
-      <li>Familiar patterns reduce hesitation and cognitive load</li>
-    </ul>
+    <div class="insight">
+      <strong>Research Question</strong>
+      <p>
+        How can users maintain control over recurring subscriptions without
+        increasing anxiety or compromising trust?
+      </p>
+    </div>
+
+    <div class="insight">
+      <strong>Key Findings</strong>
+      <ul>
+        <li>Subscriptions fade from attention after initial value is gained</li>
+        <li>Recurring payments create <strong>invisible financial loss</strong></li>
+        <li>Trust drops when payment details are requested before value is shown</li>
+        <li>Familiar patterns reduce hesitation and cognitive load</li>
+      </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 32px;">
+      <a href="research.html" class="button">
+        Explore Research Details →
+      </a>
+    </div>
   </div>
 </section>
-<div class="insight">
-  <strong>Research Depth</strong>
-  <p>
-    This overview summarizes key insights only.  
-    A separate research document details assumptions, constraints,
-    ethical considerations, and how these insights informed design decisions.
-  </p>
 
-  <p style="margin-top: 12px;">
-    <a href="research.html">
-      See how research informed key design decisions →
-    </a>
-  </p>
-</div>
+<section id="process">
+  <div style="max-width:720px;margin:auto;">
+    <h2 style="text-align:center;">Design Process</h2>
+    <div class="insight">
+      <strong>1. Research & Insights</strong>
+      <p>Conducted user interviews and secondary research to identify pain points.</p>
+    </div>
+    <div class="insight">
+      <strong>2. Wireframing</strong>
+      <p>Created low-fidelity wireframes focusing on failure states and user control.</p>
+    </div>
+    <div class="insight">
+      <strong>3. Prototyping</strong>
+      <p>Developed interactive prototypes for usability testing.</p>
+    </div>
+    <div class="insight">
+      <strong>4. Iteration</strong>
+      <p>Refined designs based on user feedback and technical constraints.</p>
+    </div>
+    <section id="wireframes">
+  <div style="max-width:720px;margin:auto;">
+    <h2 style="text-align:center;">Conceptual Wireframes & Flows</h2>
+    <div class="insight">
+      <strong>1. Home Dashboard</strong>
+      <p>
+        <strong>Purpose:</strong> Show all active subscriptions, upcoming payments, and quick actions.
+      </p>
+      <p>
+        <strong>Key Elements:</strong>
+        <ul>
+          <li>List of subscriptions with status (active/paused/cancelled)</li>
+          <li>Upcoming payment alerts</li>
+          <li>Quick actions: Pause, Cancel, View Details</li>
+        </ul>
+      </p>
+    </div>
+    <div class="insight">
+      <strong>2. Payment Failure Flow</strong>
+      <p>
+        <strong>Purpose:</strong> Reassure users during payment failures and guide recovery.
+      </p>
+      <p>
+        <strong>Key Elements:</strong>
+        <ul>
+          <li>Clear error message (non-technical language)</li>
+          <li>Reassurance: "Your money is safe"</li>
+          <li>Next steps: Retry, Update Payment, Contact Support</li>
+        </ul>
+      </p>
+    </div>
+    <div class="insight">
+      <strong>3. Subscription Management</strong>
+      <p>
+        <strong>Purpose:</strong> Allow users to control subscriptions easily.
+      </p>
+      <p>
+        <strong>Key Elements:</strong>
+        <ul>
+          <li>Toggle to pause/cancel</li>
+          <li>History of payments</li>
+          <li>Confirmation dialogs for critical actions</li>
+        </ul>
+      </p>
+    </div>
+    <div class="insight" style="background: #fff8f8; border-left-color: var(--warning);">
+      <strong>Note</strong>
+      <p>
+        These wireframes are conceptual and based on research assumptions. No visual sketches were created for this project.
+      </p>
+    </div>
+  </div>
+</section>
 
+    </div>
+  </div>
+</section>
 
 <section id="non-goals">
   <div style="max-width:720px;margin:auto;">
     <h2 style="text-align:center;">Deliberate Non-Goals</h2>
-    <ul>
-      <li>No automatic cancellation to prevent accidental harm</li>
-      <li>No persuasive upgrade nudges or dark patterns</li>
-      <li>No bank-first onboarding before value demonstration</li>
-    </ul>
+    <div class="insight" style="background: #fff8f8; border-left-color: var(--warning);">
+      <strong>Ethical Boundaries</strong>
+      <ul>
+        <li><strong>No automatic cancellation</strong> to prevent accidental harm</li>
+        <li><strong>No dark patterns</strong> or persuasive upgrade nudges</li>
+        <li><strong>No bank-first onboarding</strong> before value demonstration</li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -341,60 +553,149 @@ img {
       <h2>Failure States & Risk Handling</h2>
       <p>
         Payment and network failures represent moments of peak anxiety.
-        These were treated as primary interactions rather than edge cases.
+        These were treated as <strong>primary interactions</strong>, not edge cases.
       </p>
-
       <p>
         Clear state visibility and messaging reassure users that their
         money remains safe, even when systems fail.
       </p>
+      <div class="insight" style="margin-top: 24px;">
+        <strong>Failure State Principles</strong>
+        <ul>
+          <li>Always show <strong>clear next steps</strong></li>
+          <li>Reassure users their <strong>money is safe</strong></li>
+          <li>Provide <strong>multiple recovery paths</strong></li>
+          <li>Avoid <strong>technical jargon</strong></li>
+        </ul>
+      </div>
     </div>
-
     <img src="assets/Transaction-Unsuccessful.png"
-         alt="Payment failure UI showing clear next steps"
-         loading="lazy">
+         alt="Payment failure UI showing clear error message, reassurance, and next steps for recovery"
+         loading="lazy"
+         width="800"
+         height="600">
   </div>
 </section>
-<div class="insight">
-  <strong>Failure Assumptions</strong>
-  <ul>
-    <li>Network instability is common in real-world mobile use</li>
-    <li>Users fear double charges more than delayed confirmation</li>
-    <li>Ambiguous states cause unsafe retries and trust erosion</li>
-  </ul>
-</div>
+
+<section id="demo">
+  <div style="max-width:720px;margin:auto;">
+    <h2 style="text-align:center;">Interactive Demo</h2>
+    <div class="demo-container">
+      <h3>Payment Failure Simulation</h3>
+      <p>Click below to experience how Latt handles payment failures:</p>
+      <div style="margin: 24px 0;">
+        <button class="demo-button" onclick="simulateFailure()">Simulate Failure</button>
+        <button class="demo-button" onclick="simulateSuccess()">Simulate Success</button>
+      </div>
+      <div id="interactive-demo" class="demo-output"></div>
+    </div>
+  </div>
+</section>
 
 <div class="insight">
-  <strong>Failure as a Design Input</strong>
+  <strong>Why This Matters</strong>
   <p>
-    Rather than treating errors as edge cases, failure scenarios were
-    modeled as first-class user journeys and designed with the same rigor
-    as successful payment flows.
+    Failure states are often overlooked in UX, but they are critical for
+    building trust. By designing for these moments first, we create systems
+    that users can rely on even when things go wrong.
   </p>
-
   <p style="margin-top: 12px;">
-    <a href="failure-flow-teardown.html">
-      See how failure risks shaped the UX →
+    <a href="failure-flow-teardown.html" class="button">
+      Deep Dive: Failure Flow Teardown →
     </a>
   </p>
 </div>
 
-
 <section id="reflection">
   <div style="max-width:600px;margin:auto;text-align:center;">
     <h2>Reflection & Learnings</h2>
-    <p>
-      This project reinforced that trust is built most clearly during
-      uncertainty. Designing for breakdowns — not just success —
-      leads to systems users can rely on.
-    </p>
-
+    <div class="insight">
+      <strong>Key Takeaways</strong>
+      <ul>
+        <li>Trust is built during moments of uncertainty, not just success.</li>
+        <li>Designing for failure states first leads to more robust interfaces.</li>
+        <li>User research must inform every design decision.</li>
+        <li>Ethical considerations should guide all UX choices.</li>
+      </ul>
+    </div>
+    <div class="insight">
+      <strong>What I Would Do Differently</strong>
+      <ul>
+        <li>Conduct more user tests with diverse participants.</li>
+        <li>Explore micro-interactions for better feedback.</li>
+        <li>Document the process more thoroughly for future reference.</li>
+      </ul>
+    </div>
     <div style="margin-top:60px;">
-      <a href="../">&larr; Back to Portfolio</a>
+      <a href="../" class="button">
+        ← Back to Portfolio
+      </a>
+      <a href="research.html" class="button" style="margin-left: 16px;">
+        Research Details →
+      </a>
     </div>
   </div>
 </section>
 
 </main>
+
+<script>
+  // Simulate payment failure
+  function simulateFailure() {
+    const output = document.getElementById('demo-output');
+    output.style.display = 'block';
+    output.innerHTML = `
+      <div style="color: var(--warning);">
+        <h4 style="color: var(--accent);">Payment Failed</h4>
+        <p>Your payment could not be processed. <strong>Your money is safe.</strong></p>
+        <p><strong>Next steps:</strong></p>
+        <ul>
+          <li>Check your internet connection</li>
+          <li>Verify your payment details</li>
+          <li><a href="#" onclick="simulateSuccess()">Retry payment</a></li>
+          <li><a href="#">Contact support</a></li>
+        </ul>
+        <p style="font-size: 0.8rem; margin-top: 8px;">Error code: PAY-402</p>
+      </div>
+    `;
+    // Scroll to output
+    output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Simulate payment success
+  function simulateSuccess() {
+    const output = document.getElementById('demo-output');
+    output.style.display = 'block';
+    output.innerHTML = `
+      <div style="color: var(--success);">
+        <h4 style="color: var(--accent);">Payment Successful!</h4>
+        <p>Your subscription is active. You'll receive a confirmation email shortly.</p>
+        <div style="margin-top: 16px; background: var(--surface); padding: 12px; border-radius: 6px;">
+          <p><strong>Subscription:</strong> Latt Premium</p>
+          <p><strong>Amount:</strong> ₹299/month</p>
+          <p><strong>Next billing:</strong> 15 June 2026</p>
+        </div>
+        <p style="margin-top: 12px;"><a href="#">Manage subscription</a></p>
+      </div>
+    `;
+    // Scroll to output
+    output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Animate insights on scroll
+  document.addEventListener('DOMContentLoaded', function() {
+    const insights = document.querySelectorAll('.insight');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    insights.forEach(insight => observer.observe(insight));
+  });
+</script>
+
 </body>
 </html>

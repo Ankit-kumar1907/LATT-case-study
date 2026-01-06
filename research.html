@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Latt — Research & Case Study</title>
+<title>Latt — Research & Design Reasoning</title>
 
 <style>
 /* ========= BASE ========= */
@@ -90,10 +90,8 @@ li {
 <section>
   <h1>Research & Design Reasoning</h1>
   <p>
-    This document details the research thinking, assumptions, constraints,
-    and evaluative reasoning behind the Latt project.  
-    It complements the main case study by focusing on *why* decisions were made,
-    not *what* was built.
+    This document outlines the research assumptions, constraints, and evaluative reasoning behind the Latt project.
+    It focuses on the rationale for design decisions, rather than the final output.
   </p>
 
   <a class="back-link" href="LATT-case-study.html">← Back to Project Overview</a>
@@ -101,115 +99,106 @@ li {
 
 <!-- ========= RESEARCH QUESTION ========= -->
 <section>
-  <h2>Research Question</h2>
+  <h2>Research Focus</h2>
   <p>
-    How can users maintain awareness and control over recurring digital
-    subscriptions without increasing cognitive load or compromising trust
-    during sensitive financial moments?
+    How can users maintain awareness and control over recurring digital subscriptions,
+    while minimizing cognitive load and supporting trust during financial interactions?
   </p>
 </section>
+
+<!-- ========= SCOPE & METHOD ========= -->
 <section>
-  <h2>Scope & Method</h2>
-
+  <h2>Scope & Approach</h2>
   <p>
-    This project used analytical and comparative research methods rather
-    than primary user interviews. Existing subscription products were
-    examined to identify recurring friction points, failure patterns,
-    and trust breakdowns.
+    This project used comparative analysis of existing subscription products to identify common friction points,
+    failure patterns, and trust issues.
   </p>
-
   <p>
-    The goal was not to measure frequency, but to understand mechanisms:
-    how and why users lose awareness and confidence over time.
+    The goal was to understand how and why users lose awareness and confidence in managing subscriptions over time.
   </p>
 </section>
-
 
 <!-- ========= ASSUMPTIONS ========= -->
 <section>
-  <h2>Key Assumptions & Unknowns</h2>
+  <h2>Key Assumptions & Open Questions</h2>
 
   <h3>Assumptions</h3>
   <ul>
-    <li>Users forget subscriptions primarily due to cognitive overload, not negligence</li>
-    <li>Recurring payments create passive financial loss over time</li>
-    <li>Trust is fragile in financial products, especially during onboarding</li>
-    <li>Users prefer familiar interaction patterns over novel ones</li>
+    <li>Users lose track of subscriptions due to cognitive overload, not lack of interest</li>
+    <li>Recurring payments can lead to passive financial loss if not monitored</li>
+    <li>Trust in financial products is fragile, especially during onboarding and failure states</li>
+    <li>Familiar interaction patterns reduce hesitation and errors</li>
   </ul>
 
   <h3>Open Questions</h3>
   <ul>
-    <li>What level of transparency is sufficient to build trust?</li>
+    <li>What level of transparency is needed to build and maintain user trust?</li>
     <li>How much subscription detail is helpful before it becomes overwhelming?</li>
-    <li>Will users allow limited email scanning if value is shown first?</li>
+    <li>Would users be comfortable with limited email scanning if value is demonstrated first?</li>
   </ul>
 </section>
 
 <!-- ========= USER MODEL ========= -->
 <section>
   <h2>User Mental Model</h2>
-
   <p>
-    Users do not think of subscriptions as active commitments.
-    Instead, they experience them as background processes that fade from attention
-    once initial value is obtained.
+    Users typically do not think of subscriptions as ongoing commitments.
+    Instead, they experience them as background processes that fade from attention once the initial value is obtained.
   </p>
 
   <ul>
-    <li><strong>Primary Goal:</strong> Know what I’m paying for</li>
+    <li><strong>Primary Goal:</strong> Understand what they are paying for</li>
     <li><strong>Constraint:</strong> Limited time and attention</li>
-    <li><strong>Failure Mode:</strong> Forget → passive loss</li>
-    <li><strong>Recovery Need:</strong> Visibility + easy exit</li>
+    <li><strong>Failure Mode:</strong> Forgetting → passive financial loss</li>
+    <li><strong>Recovery Need:</strong> Visibility and easy management</li>
   </ul>
 </section>
 
-<!-- ========= TRUST ========= -->
+<!-- ========= TRUST & ETHICS ========= -->
 <section>
-  <h2>Trust, Privacy & Ethics</h2>
-
+  <h2>Trust, Privacy & Ethical Considerations</h2>
   <p>
-    Financial data access is a high-anxiety interaction. Users are skeptical of
-    applications that request permissions before demonstrating clear value.
+    Financial data access is a high-anxiety interaction.
+    Users are skeptical of applications that request permissions before demonstrating clear value.
   </p>
 
   <div class="insight">
-    <strong>Design Position:</strong>
-    Trust must be earned progressively, not demanded upfront.
+    <strong>Design Principle:</strong>
+    Trust is built progressively through transparency and user control.
   </div>
 
   <ul>
-    <li>Value explanation before permission requests</li>
-    <li>Clear justification for each data access</li>
-    <li>User control over when and how data is used</li>
-    <li>No hidden background processes</li>
+    <li>Explain value before requesting permissions</li>
+    <li>Provide clear justification for each data access</li>
+    <li>Give users control over when and how their data is used</li>
+    <li>Avoid hidden or automatic background processes</li>
   </ul>
 </section>
 
-<!-- ========= IA ========= -->
+<!-- ========= INFORMATION ARCHITECTURE ========= -->
 <section>
   <h2>Information Architecture Rationale</h2>
-
   <p>
-    The primary interface emphasizes subscription visibility rather than features.
-    Users should immediately understand their financial exposure without navigation.
+    The interface prioritizes subscription visibility and clarity over feature discovery.
+    Users should immediately understand their financial commitments without unnecessary navigation.
   </p>
 
   <ul>
-    <li>Dashboard prioritizes active subscriptions</li>
-    <li>Alerts are contextual, not constant</li>
-    <li>Discovery is secondary to management</li>
+    <li>Dashboard focuses on active subscriptions and upcoming payments</li>
+    <li>Alerts are contextual and actionable</li>
+    <li>Subscription management is the primary function; discovery is secondary</li>
   </ul>
 </section>
 
-<!-- ========= INTERACTION ========= -->
+<!-- ========= INTERACTION PRINCIPLES ========= -->
 <section>
-  <h2>Interaction Principles</h2>
+  <h2>Interaction Design Principles</h2>
 
   <ul>
-    <li>Familiar patterns reduce cognitive effort</li>
-    <li>Destructive actions must be visually distinct</li>
-    <li>No irreversible actions without confirmation</li>
-    <li>Errors must be explainable and recoverable</li>
+    <li>Use familiar patterns to reduce cognitive effort</li>
+    <li>Make destructive actions (e.g., cancellation) visually distinct and confirm before execution</li>
+    <li>Ensure all errors are explainable and recoverable</li>
+    <li>Provide clear next steps during and after failure states</li>
   </ul>
 </section>
 
@@ -219,45 +208,39 @@ li {
 
   <h3>Full Bank Integration</h3>
   <p>
-    Rejected due to high trust barriers and fear of misuse.
+    Not pursued due to high trust barriers and user concerns about data misuse.
   </p>
 
-  <h3>Fully Manual Subscription Entry</h3>
+  <h3>Manual Subscription Entry</h3>
   <p>
-    Rejected because it relies on memory — the same failure point the product
-    aims to address.
+    Not pursued because it relies on user memory, which is the same failure point the project aims to address.
   </p>
 </section>
 
 <!-- ========= EVALUATION ========= -->
 <section>
   <h2>Evaluation Plan</h2>
-
   <p>
-    The design would be evaluated through usability testing focused on:
+    The design would be evaluated through usability testing, focusing on:
   </p>
 
   <ul>
-    <li>Time to identify active subscriptions</li>
-    <li>Clarity during failure and error states</li>
-    <li>User confidence during cancellation</li>
-    <li>Error recovery without external help</li>
+    <li>Time and ease of identifying active subscriptions</li>
+    <li>Clarity and recoverability during failure and error states</li>
+    <li>User confidence in managing or cancelling subscriptions</li>
+    <li>Ability to recover from errors without external assistance</li>
   </ul>
 </section>
 
-<p>
-  These assumptions were treated as hypotheses and directly informed
-  interface prioritization, failure handling, and onboarding flow design.
-</p>
-
-
-<!-- ========= LEARNINGS ========= -->
+<!-- ========= SUMMARY ========= -->
 <section>
-  <h2>Key Learnings</h2>
-
+  <h2>Summary</h2>
   <p>
-    This project reinforced that trust and clarity matter most when systems fail.
-    Designing for uncertainty leads to calmer, more reliable user experiences.
+    This project emphasized that trust and clarity are most critical during moments of uncertainty or failure.
+    Designing for these scenarios leads to more reliable and user-friendly experiences.
+  </p>
+  <p>
+    The assumptions and principles outlined here directly informed interface prioritization, failure handling, and onboarding design.
   </p>
 </section>
 

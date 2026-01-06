@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Failure Flow Teardown — Subscription Payments</title>
+<title>Failure Flow Analysis — Subscription Payments</title>
 
 <style>
 /* ========= BASE ========= */
@@ -88,17 +88,16 @@ li { margin-bottom: 8px; }
 
 <!-- ========= HERO ========= -->
 <section id="hero">
-  <h1>Failure Flow Teardown</h1>
+  <h1>Failure Flow Analysis</h1>
   <p>
-    An analytical exploration of how subscription payment systems behave
-    when user intent is clear but execution fails.
+    An examination of subscription payment failure scenarios and their impact on user experience.
   </p>
 
   <ul class="meta">
     <li>UX Analysis</li>
     <li>Failure States</li>
-    <li>Cognitive Load</li>
-    <li>Ethical Design</li>
+    <li>User Experience</li>
+    <li>Design Considerations</li>
   </ul>
 </section>
 
@@ -106,86 +105,86 @@ li { margin-bottom: 8px; }
 <section id="context">
   <h2>Context</h2>
   <p>
-    This teardown examines a hypothetical subscription payment scenario
-    where a user attempts to complete a transaction and encounters failure.
+    This analysis explores common subscription payment failure scenarios, focusing on how interface design can support user understanding and trust.
   </p>
   <p>
-    At this stage, the user has already decided to pay. Any interruption
-    introduces uncertainty, anxiety, and risk to trust.
+    When a payment fails, users need clear information about what happened, what to do next, and the status of their money.
   </p>
 
   <div class="insight">
-    <strong>Focus:</strong>
-    This analysis evaluates interface behavior and communication —
-    not backend implementation.
+    <strong>Scope:</strong>
+    This analysis evaluates user interface behavior and communication during payment failures.
   </div>
 </section>
 
 <!-- ========= WHY FAILURE ========= -->
 <section id="why-failure">
-  <h2>Why Failure Moments Matter</h2>
+  <h2>Why Failure Scenarios Matter</h2>
   <p>
-    Payment flows are high-stakes interactions. Users are emotionally invested,
-    attention is narrow, and mistakes feel costly.
+    Payment failures are high-stress moments for users. Unclear or missing information can lead to confusion, repeated errors, and loss of trust.
   </p>
   <p>
-    When systems fail without explanation, users are forced to guess:
-    whether money was deducted, whether they should retry, or whether the
-    system can be trusted.
+    Users need to know:
   </p>
-
+  <ul>
+    <li>Whether the payment was processed</li>
+    <li>What caused the failure</li>
+    <li>What they should do next</li>
+  </ul>
 </section>
+
+<!-- ========= FAILURE ASSUMPTIONS ========= -->
 <section id="failure-assumptions">
-  <h2>Failure Assumptions</h2>
+  <h2>Failure Scenario Assumptions</h2>
+  <p>
+    The following assumptions guided the analysis of failure states:
+  </p>
 
   <ul>
-    <li>Network instability is common in real-world mobile usage</li>
-    <li>Users fear double charges more than delayed confirmation</li>
-    <li>Ambiguous states increase unsafe repeated actions</li>
-    <li>Silence during failure is interpreted as negligence</li>
+    <li>Network issues are common during mobile payments</li>
+    <li>Users are concerned about double charges</li>
+    <li>Unclear error messages increase user anxiety</li>
+    <li>Silent failures are often interpreted as system unreliability</li>
   </ul>
 
   <div class="insight">
-    These assumptions informed which failure scenarios were prioritized
-    and how recovery paths were designed.
+    These assumptions helped prioritize which failure scenarios to address and how to design recovery options.
   </div>
 </section>
-
 
 <!-- ========= CASE 1 ========= -->
 <section id="network-error">
   <h2>Case 1: Network Error During Payment</h2>
 
-  <h3>Failure Trigger</h3>
+  <h3>Scenario</h3>
   <p>
-    The user initiates payment, but the network becomes slow or disconnects
-    while the transaction is processing.
+    The user starts a payment, but the network connection is lost or slow while the transaction is processing.
   </p>
 
-  <h3>User Questions</h3>
+  <h3>User Concerns</h3>
   <ul>
-    <li>Did the payment go through?</li>
-    <li>Was money deducted?</li>
-    <li>Should I retry or wait?</li>
+    <li>Was the payment completed?</li>
+    <li>Was money deducted from my account?</li>
+    <li>Should I retry the payment?</li>
   </ul>
 
-  <h3>Common Poor UI Patterns</h3>
+  <h3>Common UI Issues</h3>
   <ul>
-    <li>Generic “Something went wrong” messages</li>
+    <li>Generic error messages (e.g., "Something went wrong")</li>
     <li>No confirmation of payment status</li>
-    <li>Only a forced retry option</li>
+    <li>Only a "Retry" button, without explanation</li>
   </ul>
 
   <div class="insight">
-    <strong>Design Risk:</strong>
-    Ambiguity increases cognitive load and encourages unsafe retries.
+    <strong>Risk:</strong>
+    Ambiguous messages can lead to repeated attempts and increased user frustration.
   </div>
 
-  <h3>Better UX Approach</h3>
+  <h3>Improved UX Approach</h3>
   <ul>
-    <li>Explicitly state whether payment was completed or not</li>
-    <li>Explain the cause in simple language</li>
-    <li>Offer retry and safe exit options</li>
+    <li>Clearly state whether the payment was completed or not</li>
+    <li>Explain the cause in simple terms</li>
+    <li>Provide options: retry, check status, or exit safely</li>
   </ul>
 </section>
 
@@ -194,21 +193,19 @@ li { margin-bottom: 8px; }
   <h2>Case 2: User Presses Back During Processing</h2>
 
   <p>
-    Users may press back due to impatience, hesitation, or accidental input
-    while payment is still processing.
+    Users may press the back button due to hesitation, impatience, or accidental input while the payment is processing.
   </p>
 
-  <h3>Risk</h3>
+  <h3>User Uncertainty</h3>
   <p>
-    This creates uncertainty about whether the transaction was cancelled,
-    delayed, or completed in the background.
+    The user is left unsure about the status of the transaction: was it cancelled, delayed, or completed in the background?
   </p>
 
   <h3>Design Considerations</h3>
   <ul>
     <li>Prevent accidental exits during critical actions</li>
-    <li>Explain consequences clearly if exit is allowed</li>
-    <li>Confirm payment outcome explicitly</li>
+    <li>If exit is allowed, explain the consequences clearly</li>
+    <li>Confirm the payment outcome explicitly after any interruption</li>
   </ul>
 </section>
 
@@ -217,75 +214,77 @@ li { margin-bottom: 8px; }
   <h2>Case 3: Insufficient Balance</h2>
 
   <p>
-    The user attempts payment, but available balance is lower than the
-    required amount.
+    The user attempts a payment, but the available balance is lower than the required amount.
   </p>
 
-  <h3>Poor Pattern</h3>
+  <h3>Common UI Issues</h3>
   <p>
-    Generic error messages without explanation or alternatives.
+    Generic or unclear error messages that do not explain the issue or offer alternatives.
   </p>
 
-  <h3>Better UX Approach</h3>
+  <h3>Improved UX Approach</h3>
   <ul>
-    <li>Clear message such as “Insufficient balance”</li>
-    <li>Neutral, non-judgmental language</li>
-    <li>Offer safe alternatives (try later, change method)</li>
+    <li>Use clear language: "Insufficient balance for this transaction"</li>
+    <li>Avoid blame or judgmental tone</li>
+    <li>Offer alternatives: try again later, use a different payment method</li>
   </ul>
 </section>
 
 <!-- ========= RESPONSIBILITY ========= -->
 <section id="responsibility">
-  <h2>Responsibility & Trust</h2>
+  <h2>Communication and Responsibility</h2>
 
   <p>
-    Failure UI should not shift blame to users.
+    The way a system communicates during failures affects user trust.
   </p>
 
   <ul>
-    <li>Network issues → shared responsibility</li>
-    <li>System crashes → system responsibility</li>
-    <li>Payment mismatches → explicit acknowledgement</li>
+    <li>Network issues: Acknowledge shared responsibility</li>
+    <li>System errors: Take ownership and explain next steps</li>
+    <li>Payment mismatches: Provide clear, actionable information</li>
   </ul>
 
   <div class="insight">
-    Taking responsibility reassures users that they are not at fault.
+    Clear communication and accountability help users feel supported, even when things go wrong.
   </div>
 </section>
 
 <!-- ========= COGNITIVE LOAD ========= -->
 <section id="cognitive-load">
-  <h2>Reducing Cognitive Load</h2>
+  <h2>Reducing User Cognitive Load</h2>
+
+  <p>
+    During payment failures, users are already under stress. The interface should minimize confusion and provide clear guidance.
+  </p>
 
   <ul>
-    <li>Explain what happened in simple terms</li>
-    <li>Avoid empty or ambiguous screens</li>
-    <li>Clearly state payment and refund status</li>
-    <li>Offer navigation options instead of forcing action</li>
+    <li>Explain what happened in simple, non-technical language</li>
+    <li>Avoid blank or ambiguous screens</li>
+    <li>State the payment and refund status clearly</li>
+    <li>Offer options, not just forced actions</li>
   </ul>
 </section>
+
+<!-- ========= DESIGN PRINCIPLES ========= -->
 <section id="failure-principles">
-  <h2>Design Principles Applied</h2>
+  <h2>Design Principles for Failure States</h2>
 
   <ul>
-    <li>State visibility over speed</li>
-    <li>Explicit reassurance over silent retries</li>
-    <li>Clear outcomes over technical explanations</li>
-    <li>User protection over business efficiency</li>
+    <li>Prioritize clarity and visibility of system status</li>
+    <li>Provide explicit reassurance and next steps</li>
+    <li>Focus on user protection and trust</li>
+    <li>Use familiar, consistent language and patterns</li>
   </ul>
 </section>
-
 
 <!-- ========= CONCLUSION ========= -->
 <section id="conclusion">
-  <h2>Key Insight</h2>
+  <h2>Summary</h2>
   <p>
-    Failure moments are not edge cases — they define trust.
+    Payment failures are critical moments for user experience. Systems that communicate clearly, take responsibility, and guide users through recovery are more likely to maintain trust and usability.
   </p>
   <p>
-    Systems that communicate clearly, take responsibility, and protect
-    users during uncertainty are perceived as reliable, even when things
-    go wrong.
+    Designing for failure states is not just about error handling—it’s about supporting users when they need it most.
   </p>
 </section>
 
