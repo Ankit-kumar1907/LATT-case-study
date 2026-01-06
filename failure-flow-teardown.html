@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Failure Flow Teardown — Subscription Payments</title>
+
+<style>
+/* ========= BASE ========= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Helvetica, Arial, sans-serif;
+  background: #ffffff;
+  color: #1a1a1a;
+  line-height: 1.7;
+}
+
+/* ========= LAYOUT ========= */
+main {
+  max-width: 960px;
+  margin: auto;
+  padding: 64px 24px;
+}
+
+section { margin-bottom: 96px; }
+
+/* ========= TYPOGRAPHY ========= */
+h1 { font-size: 2.8rem; margin-bottom: 16px; letter-spacing: -0.02em; }
+h2 { font-size: 1.9rem; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 8px; }
+h3 { font-size: 1.25rem; margin-bottom: 12px; }
+
+p {
+  max-width: 720px;
+  margin-bottom: 16px;
+  color: #444;
+}
+
+ul { margin-left: 20px; }
+li { margin-bottom: 8px; }
+
+/* ========= META ========= */
+.meta {
+  list-style: none;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.meta li {
+  background: #f0f0f0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+/* ========= INSIGHT ========= */
+.insight {
+  background: #f9f9f9;
+  border-left: 4px solid #333;
+  padding: 16px 24px;
+  margin: 32px 0;
+}
+
+/* ========= NAV ========= */
+.back-link {
+  display: inline-block;
+  margin-bottom: 48px;
+  font-weight: 600;
+  text-decoration: underline;
+  color: #1a1a1a;
+}
+
+/* ========= RESPONSIVE ========= */
+@media (max-width: 850px) {
+  h1 { font-size: 2.2rem; }
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<a class="back-link" href="LATT-case-study.html">← Back to Latt Case Study</a>
+
+<!-- ========= HERO ========= -->
+<section id="hero">
+  <h1>Failure Flow Teardown</h1>
+  <p>
+    An analytical exploration of how subscription payment systems behave
+    when user intent is clear but execution fails.
+  </p>
+
+  <ul class="meta">
+    <li>UX Analysis</li>
+    <li>Failure States</li>
+    <li>Cognitive Load</li>
+    <li>Ethical Design</li>
+  </ul>
+</section>
+
+<!-- ========= CONTEXT ========= -->
+<section id="context">
+  <h2>Context</h2>
+  <p>
+    This teardown examines a hypothetical subscription payment scenario
+    where a user attempts to complete a transaction and encounters failure.
+  </p>
+  <p>
+    At this stage, the user has already decided to pay. Any interruption
+    introduces uncertainty, anxiety, and risk to trust.
+  </p>
+
+  <div class="insight">
+    <strong>Focus:</strong>
+    This analysis evaluates interface behavior and communication —
+    not backend implementation.
+  </div>
+</section>
+
+<!-- ========= WHY FAILURE ========= -->
+<section id="why-failure">
+  <h2>Why Failure Moments Matter</h2>
+  <p>
+    Payment flows are high-stakes interactions. Users are emotionally invested,
+    attention is narrow, and mistakes feel costly.
+  </p>
+  <p>
+    When systems fail without explanation, users are forced to guess:
+    whether money was deducted, whether they should retry, or whether the
+    system can be trusted.
+  </p>
+
+</section>
+<section id="failure-assumptions">
+  <h2>Failure Assumptions</h2>
+
+  <ul>
+    <li>Network instability is common in real-world mobile usage</li>
+    <li>Users fear double charges more than delayed confirmation</li>
+    <li>Ambiguous states increase unsafe repeated actions</li>
+    <li>Silence during failure is interpreted as negligence</li>
+  </ul>
+
+  <div class="insight">
+    These assumptions informed which failure scenarios were prioritized
+    and how recovery paths were designed.
+  </div>
+</section>
+
+
+<!-- ========= CASE 1 ========= -->
+<section id="network-error">
+  <h2>Case 1: Network Error During Payment</h2>
+
+  <h3>Failure Trigger</h3>
+  <p>
+    The user initiates payment, but the network becomes slow or disconnects
+    while the transaction is processing.
+  </p>
+
+  <h3>User Questions</h3>
+  <ul>
+    <li>Did the payment go through?</li>
+    <li>Was money deducted?</li>
+    <li>Should I retry or wait?</li>
+  </ul>
+
+  <h3>Common Poor UI Patterns</h3>
+  <ul>
+    <li>Generic “Something went wrong” messages</li>
+    <li>No confirmation of payment status</li>
+    <li>Only a forced retry option</li>
+  </ul>
+
+  <div class="insight">
+    <strong>Design Risk:</strong>
+    Ambiguity increases cognitive load and encourages unsafe retries.
+  </div>
+
+  <h3>Better UX Approach</h3>
+  <ul>
+    <li>Explicitly state whether payment was completed or not</li>
+    <li>Explain the cause in simple language</li>
+    <li>Offer retry and safe exit options</li>
+  </ul>
+</section>
+
+<!-- ========= CASE 2 ========= -->
+<section id="back-action">
+  <h2>Case 2: User Presses Back During Processing</h2>
+
+  <p>
+    Users may press back due to impatience, hesitation, or accidental input
+    while payment is still processing.
+  </p>
+
+  <h3>Risk</h3>
+  <p>
+    This creates uncertainty about whether the transaction was cancelled,
+    delayed, or completed in the background.
+  </p>
+
+  <h3>Design Considerations</h3>
+  <ul>
+    <li>Prevent accidental exits during critical actions</li>
+    <li>Explain consequences clearly if exit is allowed</li>
+    <li>Confirm payment outcome explicitly</li>
+  </ul>
+</section>
+
+<!-- ========= CASE 3 ========= -->
+<section id="low-balance">
+  <h2>Case 3: Insufficient Balance</h2>
+
+  <p>
+    The user attempts payment, but available balance is lower than the
+    required amount.
+  </p>
+
+  <h3>Poor Pattern</h3>
+  <p>
+    Generic error messages without explanation or alternatives.
+  </p>
+
+  <h3>Better UX Approach</h3>
+  <ul>
+    <li>Clear message such as “Insufficient balance”</li>
+    <li>Neutral, non-judgmental language</li>
+    <li>Offer safe alternatives (try later, change method)</li>
+  </ul>
+</section>
+
+<!-- ========= RESPONSIBILITY ========= -->
+<section id="responsibility">
+  <h2>Responsibility & Trust</h2>
+
+  <p>
+    Failure UI should not shift blame to users.
+  </p>
+
+  <ul>
+    <li>Network issues → shared responsibility</li>
+    <li>System crashes → system responsibility</li>
+    <li>Payment mismatches → explicit acknowledgement</li>
+  </ul>
+
+  <div class="insight">
+    Taking responsibility reassures users that they are not at fault.
+  </div>
+</section>
+
+<!-- ========= COGNITIVE LOAD ========= -->
+<section id="cognitive-load">
+  <h2>Reducing Cognitive Load</h2>
+
+  <ul>
+    <li>Explain what happened in simple terms</li>
+    <li>Avoid empty or ambiguous screens</li>
+    <li>Clearly state payment and refund status</li>
+    <li>Offer navigation options instead of forcing action</li>
+  </ul>
+</section>
+<section id="failure-principles">
+  <h2>Design Principles Applied</h2>
+
+  <ul>
+    <li>State visibility over speed</li>
+    <li>Explicit reassurance over silent retries</li>
+    <li>Clear outcomes over technical explanations</li>
+    <li>User protection over business efficiency</li>
+  </ul>
+</section>
+
+
+<!-- ========= CONCLUSION ========= -->
+<section id="conclusion">
+  <h2>Key Insight</h2>
+  <p>
+    Failure moments are not edge cases — they define trust.
+  </p>
+  <p>
+    Systems that communicate clearly, take responsibility, and protect
+    users during uncertainty are perceived as reliable, even when things
+    go wrong.
+  </p>
+</section>
+
+</main>
+</body>
+</html>

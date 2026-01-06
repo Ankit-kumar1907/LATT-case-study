@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latt — Research & Case Study</title>
+
+<style>
+/* ========= BASE ========= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Helvetica, Arial, sans-serif;
+  background: #ffffff;
+  color: #1a1a1a;
+  line-height: 1.7;
+}
+
+/* ========= LAYOUT ========= */
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 64px 24px;
+}
+
+section { margin-bottom: 80px; }
+
+/* ========= TYPOGRAPHY ========= */
+h1 {
+  font-size: 2.8rem;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+p {
+  max-width: 720px;
+  margin-bottom: 16px;
+  color: #444;
+}
+
+ul {
+  margin-left: 20px;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+/* ========= INSIGHT ========= */
+.insight {
+  background: #f9f9f9;
+  border-left: 4px solid #333;
+  padding: 16px 24px;
+  margin: 32px 0;
+}
+
+/* ========= NAV ========= */
+.back-link {
+  display: inline-block;
+  margin-top: 24px;
+  font-weight: 600;
+  text-decoration: underline;
+  color: #1a1a1a;
+}
+
+@media (max-width: 700px) {
+  h1 { font-size: 2.2rem; }
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<!-- ========= HEADER ========= -->
+<section>
+  <h1>Research & Design Reasoning</h1>
+  <p>
+    This document details the research thinking, assumptions, constraints,
+    and evaluative reasoning behind the Latt project.  
+    It complements the main case study by focusing on *why* decisions were made,
+    not *what* was built.
+  </p>
+
+  <a class="back-link" href="LATT-case-study.html">← Back to Project Overview</a>
+</section>
+
+<!-- ========= RESEARCH QUESTION ========= -->
+<section>
+  <h2>Research Question</h2>
+  <p>
+    How can users maintain awareness and control over recurring digital
+    subscriptions without increasing cognitive load or compromising trust
+    during sensitive financial moments?
+  </p>
+</section>
+<section>
+  <h2>Scope & Method</h2>
+
+  <p>
+    This project used analytical and comparative research methods rather
+    than primary user interviews. Existing subscription products were
+    examined to identify recurring friction points, failure patterns,
+    and trust breakdowns.
+  </p>
+
+  <p>
+    The goal was not to measure frequency, but to understand mechanisms:
+    how and why users lose awareness and confidence over time.
+  </p>
+</section>
+
+
+<!-- ========= ASSUMPTIONS ========= -->
+<section>
+  <h2>Key Assumptions & Unknowns</h2>
+
+  <h3>Assumptions</h3>
+  <ul>
+    <li>Users forget subscriptions primarily due to cognitive overload, not negligence</li>
+    <li>Recurring payments create passive financial loss over time</li>
+    <li>Trust is fragile in financial products, especially during onboarding</li>
+    <li>Users prefer familiar interaction patterns over novel ones</li>
+  </ul>
+
+  <h3>Open Questions</h3>
+  <ul>
+    <li>What level of transparency is sufficient to build trust?</li>
+    <li>How much subscription detail is helpful before it becomes overwhelming?</li>
+    <li>Will users allow limited email scanning if value is shown first?</li>
+  </ul>
+</section>
+
+<!-- ========= USER MODEL ========= -->
+<section>
+  <h2>User Mental Model</h2>
+
+  <p>
+    Users do not think of subscriptions as active commitments.
+    Instead, they experience them as background processes that fade from attention
+    once initial value is obtained.
+  </p>
+
+  <ul>
+    <li><strong>Primary Goal:</strong> Know what I’m paying for</li>
+    <li><strong>Constraint:</strong> Limited time and attention</li>
+    <li><strong>Failure Mode:</strong> Forget → passive loss</li>
+    <li><strong>Recovery Need:</strong> Visibility + easy exit</li>
+  </ul>
+</section>
+
+<!-- ========= TRUST ========= -->
+<section>
+  <h2>Trust, Privacy & Ethics</h2>
+
+  <p>
+    Financial data access is a high-anxiety interaction. Users are skeptical of
+    applications that request permissions before demonstrating clear value.
+  </p>
+
+  <div class="insight">
+    <strong>Design Position:</strong>
+    Trust must be earned progressively, not demanded upfront.
+  </div>
+
+  <ul>
+    <li>Value explanation before permission requests</li>
+    <li>Clear justification for each data access</li>
+    <li>User control over when and how data is used</li>
+    <li>No hidden background processes</li>
+  </ul>
+</section>
+
+<!-- ========= IA ========= -->
+<section>
+  <h2>Information Architecture Rationale</h2>
+
+  <p>
+    The primary interface emphasizes subscription visibility rather than features.
+    Users should immediately understand their financial exposure without navigation.
+  </p>
+
+  <ul>
+    <li>Dashboard prioritizes active subscriptions</li>
+    <li>Alerts are contextual, not constant</li>
+    <li>Discovery is secondary to management</li>
+  </ul>
+</section>
+
+<!-- ========= INTERACTION ========= -->
+<section>
+  <h2>Interaction Principles</h2>
+
+  <ul>
+    <li>Familiar patterns reduce cognitive effort</li>
+    <li>Destructive actions must be visually distinct</li>
+    <li>No irreversible actions without confirmation</li>
+    <li>Errors must be explainable and recoverable</li>
+  </ul>
+</section>
+
+<!-- ========= ALTERNATIVES ========= -->
+<section>
+  <h2>Alternative Approaches Considered</h2>
+
+  <h3>Full Bank Integration</h3>
+  <p>
+    Rejected due to high trust barriers and fear of misuse.
+  </p>
+
+  <h3>Fully Manual Subscription Entry</h3>
+  <p>
+    Rejected because it relies on memory — the same failure point the product
+    aims to address.
+  </p>
+</section>
+
+<!-- ========= EVALUATION ========= -->
+<section>
+  <h2>Evaluation Plan</h2>
+
+  <p>
+    The design would be evaluated through usability testing focused on:
+  </p>
+
+  <ul>
+    <li>Time to identify active subscriptions</li>
+    <li>Clarity during failure and error states</li>
+    <li>User confidence during cancellation</li>
+    <li>Error recovery without external help</li>
+  </ul>
+</section>
+
+<p>
+  These assumptions were treated as hypotheses and directly informed
+  interface prioritization, failure handling, and onboarding flow design.
+</p>
+
+
+<!-- ========= LEARNINGS ========= -->
+<section>
+  <h2>Key Learnings</h2>
+
+  <p>
+    This project reinforced that trust and clarity matter most when systems fail.
+    Designing for uncertainty leads to calmer, more reliable user experiences.
+  </p>
+</section>
+
+<a class="back-link" href="LATT-case-study.html">← Back to Project Overview</a>
+
+</main>
+</body>
+</html>

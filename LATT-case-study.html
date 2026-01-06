@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta name="description" content="A UX case study on Latt, a subscription management concept focused on financial intent, failure states, and user trust.">
+
+<meta property="og:title" content="Latt — UX Case Study">
+<meta property="og:description" content="A UX case study on Latt, a subscription management concept focused on financial intent and user trust.">
+<meta property="og:image" content="https://ankit-kumar1907.github.io/Project-Latt/assets/Home-Logged-In.png">
+
+<title>Latt — UX Case Study</title>
+
+<style>
+/* ========= VARIABLES & RESET ========= */
+:root {
+  --bg-color: #ffffff;
+  --text-main: #222222;
+  --text-muted: #555555;
+  --accent: #1f1f3a;
+  --surface: #f4f5f7;
+  --border: #e0e0e0;
+
+  --spacing-sm: 16px;
+  --spacing-md: 32px;
+  --spacing-lg: 80px;
+  --spacing-xl: 120px;
+
+  --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-stack);
+  background: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========= ACCESSIBILITY ========= */
+.skip-link {
+  position: absolute;
+  left: -999px;
+}
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+  background: #fff;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  z-index: 1000;
+}
+
+/* ========= LAYOUT ========= */
+main {
+  max-width: 1024px;
+  margin: auto;
+  padding: 80px 24px;
+}
+
+section {
+  margin-bottom: var(--spacing-xl);
+}
+
+/* ========= TYPOGRAPHY ========= */
+h1, h2, h3 {
+  color: var(--accent);
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  letter-spacing: -0.03em;
+  margin-bottom: var(--spacing-sm);
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: var(--spacing-md);
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+}
+
+p, ul {
+  max-width: 68ch;
+  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+ul { padding-left: 1.2rem; }
+
+li { margin-bottom: 8px; }
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ========= COMPONENTS ========= */
+.summary-box,
+.insight {
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  padding: 24px 32px;
+  border-radius: 0 12px 12px 0;
+  max-width: 68ch;
+}
+
+.summary-box { margin-bottom: var(--spacing-lg); }
+
+.insight strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+/* ========= NAV ========= */
+.top-nav {
+  margin-bottom: 60px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* ========= HERO ========= */
+#hero {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto var(--spacing-xl);
+}
+
+#hero .tagline {
+  font-size: 1.35rem;
+  margin-bottom: var(--spacing-md);
+}
+
+/* ========= META ========= */
+.meta {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.meta li {
+  background: var(--surface);
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* ========= GRID ========= */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+img {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+}
+
+/* ========= BUTTON ========= */
+.button {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.button[aria-disabled="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ========= RESPONSIVE ========= */
+@media (max-width: 850px) {
+  .split { grid-template-columns: 1fr; }
+  main { padding: 48px 20px; }
+}
+</style>
+</head>
+
+<body>
+<a href="#hero" class="skip-link">Skip to content</a>
+
+<main>
+
+<nav class="top-nav">
+  <a href="../">&larr; Back to Portfolio</a>
+</nav>
+
+<div class="summary-box">
+  <h3>Project at a Glance</h3>
+  <ul>
+    <li><strong>Problem:</strong> Users lose track of subscriptions due to poor system feedback.</li>
+    <li><strong>Solution:</strong> A FinTech concept aligned with user intent and awareness.</li>
+    <li><strong>Impact:</strong> Improved trust during high-anxiety financial moments.</li>
+  </ul>
+</div>
+
+<section id="hero">
+  <h1>Latt</h1>
+  <p class="tagline">
+    A subscription management concept focused on financial intent,
+    failure prevention, and user trust.
+  </p>
+
+  <ul class="meta">
+    <li>UX Case Study</li>
+    <li>FinTech</li>
+    <li>HCI Research</li>
+    <li>Ethical Design</li>
+  </ul>
+
+  <div style="margin-top:32px;">
+    <a class="button" aria-disabled="true">Prototype (Coming Soon)</a>
+  </div>
+</section>
+
+<section id="context">
+  <div class="split">
+    <div>
+      <h2>Context & Problem</h2>
+      <p>
+        Modern subscription systems rely on recurring payments that often
+        continue unnoticed. Over time, users lose visibility into what
+        they are paying for and why.
+      </p>
+
+      <p>
+        The issue is not forgetfulness alone, but a mismatch between
+        <strong>user intent</strong> and <strong>system persistence</strong>.
+      </p>
+
+      <div class="insight">
+        <strong>Key Insight</strong>
+        Most subscription losses occur passively through system behavior,
+        not deliberate user choice.
+      </div>
+    </div>
+
+    <img src="assets/Home-Logged-In.png"
+         alt="Latt dashboard overview showing subscription lists"
+         loading="lazy">
+  </div>
+</section>
+
+<section id="study">
+  <div style="max-width:720px;margin:auto;">
+    <h2 style="text-align:center;">Study & Research Overview</h2>
+
+    <p>
+      Prior to interface design, the focus was on understanding how users
+      experience subscriptions over time — particularly around trust,
+      attention, and financial anxiety.
+    </p>
+
+    <div class="insight">
+      <strong>Research Question</strong>
+      How can users maintain control over recurring subscriptions without
+      increasing anxiety or compromising trust?
+    </div>
+
+    <div class="insight">
+      <strong>Evidence Basis</strong>
+      <p>
+        Insights were informed by secondary UX research, comparative analysis
+        of existing subscription management tools, and behavioral economics
+        literature on passive financial loss and attention decay.
+      </p>
+    </div>
+
+    <ul>
+      <li>Subscriptions fade from attention after initial value is gained</li>
+      <li>Recurring payments create invisible financial loss</li>
+      <li>Trust drops when payment details are requested before value is shown</li>
+      <li>Familiar patterns reduce hesitation and cognitive load</li>
+    </ul>
+  </div>
+</section>
+<div class="insight">
+  <strong>Research Depth</strong>
+  <p>
+    This overview summarizes key insights only.  
+    A separate research document details assumptions, constraints,
+    ethical considerations, and how these insights informed design decisions.
+  </p>
+
+  <p style="margin-top: 12px;">
+    <a href="research.html">
+      See how research informed key design decisions →
+    </a>
+  </p>
+</div>
+
+
+<section id="non-goals">
+  <div style="max-width:720px;margin:auto;">
+    <h2 style="text-align:center;">Deliberate Non-Goals</h2>
+    <ul>
+      <li>No automatic cancellation to prevent accidental harm</li>
+      <li>No persuasive upgrade nudges or dark patterns</li>
+      <li>No bank-first onboarding before value demonstration</li>
+    </ul>
+  </div>
+</section>
+
+<section id="failure">
+  <div class="split">
+    <div>
+      <h2>Failure States & Risk Handling</h2>
+      <p>
+        Payment and network failures represent moments of peak anxiety.
+        These were treated as primary interactions rather than edge cases.
+      </p>
+
+      <p>
+        Clear state visibility and messaging reassure users that their
+        money remains safe, even when systems fail.
+      </p>
+    </div>
+
+    <img src="assets/Transaction-Unsuccessful.png"
+         alt="Payment failure UI showing clear next steps"
+         loading="lazy">
+  </div>
+</section>
+<div class="insight">
+  <strong>Failure Assumptions</strong>
+  <ul>
+    <li>Network instability is common in real-world mobile use</li>
+    <li>Users fear double charges more than delayed confirmation</li>
+    <li>Ambiguous states cause unsafe retries and trust erosion</li>
+  </ul>
+</div>
+
+<div class="insight">
+  <strong>Failure as a Design Input</strong>
+  <p>
+    Rather than treating errors as edge cases, failure scenarios were
+    modeled as first-class user journeys and designed with the same rigor
+    as successful payment flows.
+  </p>
+
+  <p style="margin-top: 12px;">
+    <a href="failure-flow-teardown.html">
+      See how failure risks shaped the UX →
+    </a>
+  </p>
+</div>
+
+
+<section id="reflection">
+  <div style="max-width:600px;margin:auto;text-align:center;">
+    <h2>Reflection & Learnings</h2>
+    <p>
+      This project reinforced that trust is built most clearly during
+      uncertainty. Designing for breakdowns — not just success —
+      leads to systems users can rely on.
+    </p>
+
+    <div style="margin-top:60px;">
+      <a href="../">&larr; Back to Portfolio</a>
+    </div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
