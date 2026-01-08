@@ -1,702 +1,583 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<!-- IMPROVED META TAGS FOR BETTER SHAREABILITY AND SEO -->
-<meta name="description" content="A UX case study on Latt, a subscription management concept focused on financial intent, failure states, and user trust. This project is based on assumptions and personal research by Ankit Kumar.">
-<meta property="og:title" content="Latt — UX Case Study | Ankit Kumar">
-<meta property="og:description" content="A detailed UX case study on Latt, a subscription management concept focused on financial intent, failure prevention, and user trust. This project is based on assumptions and personal research by Ankit Kumar.">
-<meta property="og:image" content="https://ankit-kumar1907.github.io/Project-Latt/assets/Home-Logged-In.png">
-<meta property="og:url" content="https://ankit-kumar1907.github.io/Project-Latt/LATT-case-study.html">
-<meta name="author" content="Ankit Kumar">
-
-<title>Latt — UX Case Study | Ankit Kumar</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Latt Subscription Manager: A case study on ethical UX and backend logic.">
+  <title>Latt — Technical Case Study</title>
 
 <style>
-/* ========= VARIABLES & RESET ========= */
-:root {
-  --bg-color: #ffffff;
-  --text-main: #222222;
-  --text-muted: #555555;
-  --accent: #1f1f3a;
-  --surface: #f4f5f7;
-  --border: #e0e0e0;
-  --success: #4CAF50;
-  --warning: #FF9800;
+  /* ========= VARIABLES ========= */
+  :root {
+    --text-main: #111;
+    --text-muted: #666;
+    --accent: #004493;
+    --bg: #fff;
+    --surface: #f8f9fa;
+    --border: #e0e0e0;
+    --code-bg: #1e1e1e;
+    --success: #2E7D32;
+    --error: #D32F2F;
+    --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --transition: all 0.2s ease;
+  }
 
-  --spacing-sm: 16px;
-  --spacing-md: 32px;
-  --spacing-lg: 80px;
-  --spacing-xl: 120px;
+  /* ========= BASE STYLES ========= */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-stack);
+    color: var(--text-main);
+    line-height: 1.7;
+    background: var(--bg);
+  }
+  a { text-decoration: none; color: var(--accent); }
+  button, input, select { font-family: inherit; }
 
-  --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-                Roboto, Helvetica, Arial, sans-serif;
-  --transition: all 0.3s ease;
-}
+  /* ========= LAYOUT ========= */
+  .layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    max-width: 1100px;
+    margin: 0 auto;
+    gap: 60px;
+    padding: 0 24px;
+  }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+  /* ========= SIDEBAR ========= */
+  .sidebar {
+    position: sticky;
+    top: 40px;
+    height: fit-content;
+    padding-top: 60px;
+    border-right: 1px solid var(--border);
+  }
+  .sidebar ul { list-style: none; padding: 0; }
+  .sidebar li { margin-bottom: 12px; }
+  .sidebar a {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: block;
+    padding: 4px 0;
+    transition: var(--transition);
+  }
+  .sidebar a:hover { color: var(--accent); transform: translateX(4px); }
+  .sidebar .back-link {
+    margin-bottom: 32px;
+    color: var(--text-main);
+    font-weight: 700;
+    display: block;
+  }
 
-html {
-  scroll-behavior: smooth;
-  /* Added for better focus visibility */
-  --focus-outline: 3px solid var(--accent);
-}
+  /* ========= MAIN CONTENT ========= */
+  main { padding-top: 60px; padding-bottom: 120px; max-width: 720px; }
+  h1 { font-size: 2.5rem; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 24px; }
+  h2 {
+    font-size: 1.6rem;
+    margin-top: 80px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--accent);
+  }
+  h3 { font-size: 1.2rem; margin-top: 40px; margin-bottom: 16px; }
+  p { margin-bottom: 20px; color: var(--text-muted); font-size: 1rem; }
 
-body {
-  font-family: var(--font-stack);
-  background: var(--bg-color);
-  color: var(--text-main);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
+  /* META GRID */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .meta-item strong {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
 
-/* ========= ACCESSIBILITY ========= */
-.skip-link {
-  position: absolute;
-  left: -999px;
-  background: var(--accent);
-  color: white;
-  padding: 8px 12px;
-  z-index: 1000;
-}
-.skip-link:focus {
-  left: 16px;
-  top: 16px;
-}
-:focus-visible {
-  outline: var(--focus-outline);
-}
+  /* IMAGES */
+  figure {
+    margin: 40px 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  figure img { width: 100%; display: block; }
+  figcaption {
+    padding: 12px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
 
-/* ========= LAYOUT ========= */
-main {
-  max-width: 1024px;
-  margin: auto;
-  padding: 80px 24px;
-}
+  /* INSIGHT BOXES */
+  .insight {
+    background: #f0f7ff;
+    border-left: 4px solid var(--accent);
+    padding: 24px;
+    margin: 32px 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.95rem;
+  }
+  .code-concept {
+    font-family: 'Courier New', monospace;
+    background: var(--surface);
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: #333;
+    margin: 24px 0;
+  }
 
-section {
-  margin-bottom: var(--spacing-xl);
-}
+  /* PROTOTYPE CONTAINER */
+  .prototype-container {
+    background: #fff;
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: 32px;
+    margin: 40px 0;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    transition: var(--transition);
+  }
+  .prototype-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+  }
 
-/* ========= TYPOGRAPHY ========= */
-h1, h2, h3 {
-  color: var(--accent);
-  font-weight: 700;
-  line-height: 1.2;
-  text-wrap: balance;
-}
+  /* SUBSCRIPTIONS GRID */
+  .subscriptions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .subscription-item {
+    background: var(--surface);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+  }
+  .subscription-item:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+  .subscription-item h3 { margin-bottom: 8px; font-size: 1.1rem; }
+  .subscription-item p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; }
+  .subscription-item .category {
+    font-size: 0.75rem;
+    background: #eee;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  .subscription-item .btn { width: 100%; margin-top: 12px; }
 
-h1 {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  letter-spacing: -0.03em;
-  margin-bottom: var(--spacing-sm);
-}
+  /* BUTTONS */
+  .btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition);
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: #003377; }
+  .btn-fail { background: var(--error); color: white; }
+  .btn-fail:hover { background: #b71c1c; }
+  .btn-success { background: var(--success); color: white; }
+  .btn-success:hover { background: #1b5e20; }
+  .btn-sm { font-size: 0.8rem; padding: 6px 12px; }
 
-h2 {
-  font-size: 1.8rem;
-  margin-bottom: var(--spacing-md);
-  position: relative;
-  padding-bottom: 8px;
-}
-h2:after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 60px;
-  height: 3px;
-  background: var(--accent);
-}
+  /* MODALS */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.3s;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal-content {
+    background: var(--bg);
+    margin: 15% auto;
+    padding: 32px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    animation: slideUp 0.3s;
+  }
+  @keyframes slideUp { from { transform: translateY(20px); } to { transform: translateY(0); } }
+  .close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+    transition: var(--transition);
+  }
+  .close:hover { color: #000; }
 
-h3 {
-  font-size: 1.25rem;
-  margin-bottom: 12px;
-}
+  /* FORMS */
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+  input:focus, select:focus { border-color: var(--accent); outline: none; }
+  label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
 
-p, ul {
-  max-width: 68ch;
-  margin-bottom: 1.5rem;
-  color: var(--text-muted);
-  font-size: 1.1rem;
-}
+  /* DEMO OUTPUT */
+  #demo-output {
+    margin-top: 24px;
+    text-align: left;
+    display: none;
+    padding: 16px;
+    background: var(--surface);
+    border-radius: 6px;
+    border-left: 4px solid transparent;
+  }
 
-ul { padding-left: 1.2rem; }
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    grid-column: 1 / -1;
+  }
+  .empty-state i { font-size: 2rem; margin-bottom: 16px; display: block; }
 
-li { margin-bottom: 8px; }
-
-a {
-  color: var(--accent);
-  text-decoration: none;
-  text-underline-offset: 4px;
-  transition: var(--transition);
-  border-bottom: 2px solid transparent;
-}
-a:hover, a:focus {
-  text-decoration: underline;
-  border-bottom-color: var(--accent);
-}
-
-/* ========= COMPONENTS ========= */
-.summary-box,
-.insight {
-  background: var(--surface);
-  border-left: 3px solid var(--accent);
-  padding: 24px 32px;
-  border-radius: 0 12px 12px 0;
-  max-width: 68ch;
-  transition: var(--transition);
-}
-.summary-box:hover,
-.insight:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.summary-box { margin-bottom: var(--spacing-lg); }
-
-.insight strong {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--accent);
-  font-weight: 600;
-}
-
-/* ========= NAV ========= */
-.top-nav {
-  margin-bottom: 60px;
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-/* ========= HERO ========= */
-#hero {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto var(--spacing-xl);
-  position: relative;
-}
-
-#hero .tagline {
-  font-size: 1.35rem;
-  margin-bottom: var(--spacing-md);
-  color: var(--text-muted);
-}
-
-/* ========= META ========= */
-.meta {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: var(--spacing-md);
-}
-
-.meta li {
-  background: var(--surface);
-  padding: 6px 16px;
-  border-radius: 100px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  transition: var(--transition);
-}
-.meta li:hover {
-  background: var(--accent);
-  color: white;
-}
-
-/* ========= GRID ========= */
-.split {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 64px;
-  align-items: center;
-  margin-bottom: var(--spacing-lg);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
-  margin-top: 48px;
-}
-
-img {
-  width: 100%;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-  transition: var(--transition);
-}
-img:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
-}
-
-/* ========= BUTTON ========= */
-.button {
-  display: inline-block;
-  background: var(--accent);
-  color: #fff;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: var(--transition);
-  border: none;
-  cursor: pointer;
-}
-.button:hover {
-  background: #15152c;
-  transform: translateY(-1px);
-}
-.button:active {
-  transform: translateY(0);
-}
-.button[aria-disabled="true"] {
-  opacity: 0.6;
-  pointer-events: none;
-  cursor: not-allowed;
-}
-
-/* NEW: Interactive demo styles */
-.demo-container {
-  background: var(--surface);
-  border-radius: 12px;
-  padding: 24px;
-  margin: var(--spacing-md) 0;
-  border-left: 3px solid var(--accent);
-}
-.demo-button {
-  background: var(--accent);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-right: 12px;
-  transition: var(--transition);
-}
-.demo-button:hover {
-  background: #15152c;
-}
-.demo-output {
-  margin-top: 16px;
-  padding: 12px;
-  background: white;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  display: none;
-}
-
-/* ========= RESPONSIVE ========= */
-@media (max-width: 850px) {
-  .split { grid-template-columns: 1fr; }
-  main { padding: 48px 20px; }
-  #hero { padding: 0 16px; }
-}
-
-/* NEW: Animation for insights */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.insight {
-  animation: fadeIn 0.5s ease forwards;
-  opacity: 0;
-}
-.insight:nth-child(1) { animation-delay: 0.1s; }
-.insight:nth-child(2) { animation-delay: 0.2s; }
-.insight:nth-child(3) { animation-delay: 0.3s; }
+  /* RESPONSIVE */
+  @media (max-width: 850px) {
+    .layout { grid-template-columns: 1fr; gap: 0; }
+    .sidebar { display: none; }
+    .subscriptions-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 
 <body>
-<a href="#hero" class="skip-link">Skip to content</a>
 
-<main>
-
-<nav class="top-nav">
-<a href="../" class="button">
-        ← Back to Portfolio
-      </a>
-</nav>
-
-<div class="summary-box">
-  <h3>Project at a Glance</h3>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-    <div>
-      <strong>My Role:</strong>
-      <ul>
-        <li>Solo UX Researcher & Designer</li>
-        <li>Frontend Developer (HTML/CSS/JS)</li>
-        <li>Usability Tester & Iteration Lead</li>
-      </ul>
-    </div>
-    <div>
-      <strong>Project Details:</strong>
-      <ul>
-        <li><strong>Problem:</strong> Users lose track of subscriptions due to poor system feedback.</li>
-        <li><strong>Solution:</strong> A privacy-first manager that uses local PDF statement parsing to track subscriptions without bank logins.</li>
-        <li><strong>Impact:</strong> Improved trust during high-anxiety financial moments.</li>
-      </ul>
+  <!-- MODALS -->
+  <div id="auth-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 style="margin: 0 0 20px; font-size: 1.5rem; border: none;">Login</h2>
+      <form id="auth-form">
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit" class="btn btn-primary" style="width:100%">Sign In</button>
+      </form>
     </div>
   </div>
-  <p style="font-size: 0.8rem; margin-top: 12px; opacity: 0.7;">
-    <em>Note: This project is based on assumptions and personal research for academic and portfolio purposes.</em>
-  </p>
-</div>
 
-<section id="hero">
-  <h1>Latt</h1>
-  <p class="tagline">
-    A subscription management concept focused on <strong>financial intent</strong>,
-    <strong>failure prevention</strong>, and <strong>user trust</strong>.
-  </p>
-
-  <ul class="meta">
-    <li>UX Case Study</li>
-    <li>FinTech</li>
-    <li>HCI Research</li>
-    <li>Ethical Design</li>
-    <li>Solo Project</li>
-  </ul>
-
-  <div class="demo-container" style="text-align: center; margin-top: 32px;">
-    <h3>Try a Failure State Demo</h3>
-    <p style="margin-bottom: 16px; font-size: 0.9rem;">Click to simulate a payment failure and recovery flow:</p>
-    <button class="demo-button" onclick="simulateFailure()">Simulate Failure</button>
-    <button class="demo-button" onclick="simulateSuccess()">Simulate Success</button>
-    <div id="demo-output" class="demo-output"></div>
+  <div id="add-sub-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 style="margin: 0 0 20px; font-size: 1.5rem; border: none;">New Subscription</h2>
+      <form id="add-sub-form">
+        <input type="text" id="sub-name" placeholder="Service Name (e.g. Netflix)" list="service-suggestions" required />
+        <datalist id="service-suggestions">
+          <option value="Netflix">
+          <option value="Spotify">
+          <option value="Amazon Prime">
+          <option value="Disney+ Hotstar">
+          <option value="Zomato Pro">
+        </datalist>
+        <input type="text" id="sub-cost" placeholder="Monthly Cost (₹)" inputmode="numeric" pattern="[0-9]*" required />
+        <label style="font-size: 0.8rem; color: #666;">Renewal Date</label>
+        <input type="date" id="sub-renewal" required />
+        <select id="sub-category" required>
+          <option value="">Select Category</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Utilities">Utilities</option>
+          <option value="Fitness">Fitness</option>
+          <option value="Food">Food</option>
+        </select>
+        <button type="submit" class="btn btn-primary" style="width:100%">Add Subscription</button>
+      </form>
+    </div>
   </div>
 
-  <div style="margin-top:32px;">
-    <a class="button" aria-disabled="true">View Prototype (Coming Soon)</a>
-  </div>
-</section>
+  <!-- MAIN LAYOUT -->
+  <div class="layout">
+    <aside class="sidebar">
+      <a href="index.html" class="back-link">← Back to Home</a>
+      <nav>
+        <ul>
+          <li><a href="#overview">01. Overview</a></li>
+          <li><a href="#research">02. Research & Ethics</a></li>
+          <li><a href="#prototype">03. Live Prototype</a></li>
+          <li><a href="#logic">04. Engineering Logic</a></li>
+          <li><a href="#design">05. Interface Design</a></li>
+          <li><a href="#failure">06. Failure Analysis</a></li>
+          <li><a href="#reflection">07. Reflection</a></li>
+        </ul>
+      </nav>
+      <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;">
+        <p style="font-size: 0.8rem; margin-bottom: 8px;">Admin Access</p>
+        <button id="login-btn" class="btn btn-primary" style="width: 100%;">Login to Latt</button>
+      </div>
+    </aside>
 
-<section id="context">
-  <div class="split">
-    <div>
-      <h2>Context & Problem</h2>
-      <p>
-        Modern subscription systems rely on recurring payments that often
-        continue unnoticed. Over time, users lose visibility into what
-        they are paying for and why.
-      </p>
-      <p>
-        The issue is not forgetfulness alone, but a mismatch between
-        <strong>user intent</strong> and <strong>system persistence</strong>.
-      </p>
-      <div class="insight">
-        <strong>Key Insight</strong>
+    <main>
+      <!-- OVERVIEW -->
+      <header id="overview">
+        <h1>Latt Subscription Manager</h1>
+        <p style="font-size: 1.2rem; color: var(--text-main);">
+          Realigning system persistence with user intent through database logic and ethical UI.
+        </p>
+        <div class="meta-grid">
+          <div class="meta-item"><strong>Role</strong>UX Research & Full Stack</div>
+          <div class="meta-item"><strong>Timeline</strong>4 Weeks (Solo Project)</div>
+          <div class="meta-item"><strong>Core Tech</strong>Node.js, SQL, Vanilla JS</div>
+        </div>
+        <figure>
+          <img src="assets/Hero.png" alt="Latt Dashboard Mockup" onerror="this.style.height='400px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='Dashboard Preview'">
+          <figcaption>The Central Dashboard: Designed for immediate financial visibility.</figcaption>
+        </figure>
+      </header>
+
+      <!-- RESEARCH -->
+      <section id="research">
+        <h2>02. Research & Ethical Framework</h2>
         <p>
-          Most subscription losses occur passively through system behavior,
-          not deliberate user choice.
+          The subscription economy thrives on "invisibility." Once a user subscribes, the system is designed to fade into the background. My goal was to invert this: <strong>How might we make financial commitments visible without being annoying?</strong>
         </p>
-        <p style="font-size: 0.8rem; margin-top: 8px; opacity: 0.7;">
-          <em>Based on personal research and assumptions for this project.</em>
+        <h3>The "Anxiety Gap" Finding</h3>
+        <p>
+          I conducted a comparative analysis of 15 subscription management tools. A distinct pattern emerged: trust drops significantly when applications request banking credentials (OAuth/Plaid) before demonstrating value.
         </p>
-      </div>
-    </div>
-    <img src="assets/Home-Logged-In.png"
-         alt="Latt dashboard showing active subscriptions, payment status, and user controls for managing recurring payments"
-         loading="lazy"
-         width="800"
-         height="600">
-  </div>
-</section>
+        <div class="insight">
+          <strong>Key Insight:</strong>
+          Users treat payment processing not as a technical step, but as a moment of vulnerability. A system that hides logic during this phase increases anxiety.
+        </div>
+      </section>
 
-<section id="study">
-  <div style="max-width:720px;margin:auto;">
-    <h2 style="text-align:center;">Study & Research Overview</h2>
-    <p>
-      Prior to interface design, the focus was on understanding how users
-      experience subscriptions over time — particularly around trust,
-      attention, and financial anxiety.
-    </p>
+      <!-- PROTOTYPE -->
+      <section id="prototype">
+        <h2>03. Live Prototype</h2>
+        <p>I built this functional component to test the "Add Subscription" flow. You can interact with the mock database below to see how the list updates dynamically.</p>
+        <div class="prototype-container">
+          <div class="prototype-header">
+            <h3 style="margin:0;">Active Subscriptions</h3>
+            <button id="add-sub-btn" class="btn btn-primary">+ Add New</button>
+          </div>
+          <div id="subscriptions-list" class="subscriptions-grid">
+            <!-- Dynamically populated -->
+          </div>
+          <div id="empty-state" class="empty-state" style="display: none;">
+            <i>📱</i>
+            <p>No subscriptions yet.<br>Add one to track your spending!</p>
+          </div>
+        </div>
+        <div class="insight" style="background: #eef9f0; border-left-color: var(--success);">
+          <strong>Engineering Note:</strong> This prototype uses a local Javascript array to simulate the SQL database response. In the production version, this connects to the <code>/api/subscriptions</code> endpoint.
+        </div>
+      </section>
 
-    <div class="insight">
-      <strong>Research Methodology</strong>
-      <ul>
-        <li>Secondary UX research (15+ tools analyzed)</li>
-        <li>User interviews (n=8, semi-structured)</li>
-        <li>Behavioral economics literature review</li>
-        <li>Comparative analysis of failure states</li>
-      </ul>
-      <p style="font-size: 0.8rem; margin-top: 8px; opacity: 0.7;">
-        <em>All research and findings are based on personal assumptions and academic exploration.</em>
-      </p>
-    </div>
-
-    <div class="insight">
-      <strong>Research Question</strong>
-      <p>
-        How can users maintain control over recurring subscriptions without
-        increasing anxiety or compromising trust?
-      </p>
-    </div>
-
-    <div class="insight">
-      <strong>Key Findings</strong>
-      <ul>
-        <li>Subscriptions fade from attention after initial value is gained</li>
-        <li>Recurring payments create <strong>invisible financial loss</strong></li>
-        <li>Trust drops when payment details are requested before value is shown</li>
-        <li>Familiar patterns reduce hesitation and cognitive load</li>
-      </ul>
-    </div>
-
-    <div style="text-align: center; margin-top: 32px;">
-      <a href="research.html" class="button">
-        Explore Research Details →
-      </a>
-    </div>
-  </div>
-</section>
-
-<section id="process">
-  <div style="max-width:720px;margin:auto;">
-    <h2 style="text-align:center;">Design Process</h2>
-    <div class="insight">
-      <strong>1. Research & Insights</strong>
-      <p>Conducted user interviews and secondary research to identify pain points.</p>
-    </div>
-    <div class="insight">
-      <strong>2. Wireframing</strong>
-      <p>Created low-fidelity wireframes focusing on failure states and user control.</p>
-    </div>
-    <div class="insight">
-      <strong>3. Prototyping</strong>
-      <p>Developed interactive prototypes for usability testing.</p>
-    </div>
-    <div class="insight">
-      <strong>4. Iteration</strong>
-      <p>Refined designs based on user feedback and technical constraints.</p>
-    </div>
-    <section id="wireframes">
-  <div style="max-width:720px;margin:auto;">
-    <h2 style="text-align:center;">Conceptual Wireframes & Flows</h2>
-    <div class="insight">
-      <strong>1. Home Dashboard</strong>
-      <p>
-        <strong>Purpose:</strong> Show all active subscriptions, upcoming payments, and quick actions.
-      </p>
-      <p>
-        <strong>Key Elements:</strong>
-        <ul>
-          <li>List of subscriptions with status (active/paused/cancelled)</li>
-          <li>Upcoming payment alerts</li>
-          <li>Quick actions: Pause, Cancel, View Details</li>
+      <!-- LOGIC -->
+      <section id="logic">
+        <h2>04. The Engineering Logic</h2>
+        <p>As a student of Mathematics, I approached the backend not just as data storage, but as a system of relations.</p>
+        <figure>
+          <img src="assets/Entity-Relationship.png" alt="SQL Database Schema showing 3NF Normalization" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='Database Schema'">
+          <figcaption>The 3NF Schema: Separating Users from Services to prevent data redundancy.</figcaption>
+        </figure>
+        <h3>Database Normalization (3NF)</h3>
+        <p>A common failure in junior projects is redundancy—storing subscription details directly in the user table. To solve this, I normalized the database to Third Normal Form (3NF).</p>
+        <ul style="margin-bottom: 24px; padding-left: 20px; color: var(--text-muted);">
+          <li><strong>Users Table:</strong> Authentication & Settings.</li>
+          <li><strong>Services Table:</strong> Static data (Netflix, Spotify definitions).</li>
+          <li><strong>Subscriptions Table:</strong> The dynamic link (Start date, Renewal cycle).</li>
         </ul>
-      </p>
-    </div>
-    <div class="insight">
-      <strong>2. Payment Failure Flow</strong>
-      <p>
-        <strong>Purpose:</strong> Reassure users during payment failures and guide recovery.
-      </p>
-      <p>
-        <strong>Key Elements:</strong>
-        <ul>
-          <li>Clear error message (non-technical language)</li>
-          <li>Reassurance: "Your money is safe"</li>
-          <li>Next steps: Retry, Update Payment, Contact Support</li>
-        </ul>
-      </p>
-    </div>
-    <div class="insight">
-      <strong>3. Subscription Management</strong>
-      <p>
-        <strong>Purpose:</strong> Allow users to control subscriptions easily.
-      </p>
-      <p>
-        <strong>Key Elements:</strong>
-        <ul>
-          <li>Toggle to pause/cancel</li>
-          <li>History of payments</li>
-          <li>Confirmation dialogs for critical actions</li>
-        </ul>
-      </p>
-    </div>
-    <div class="insight" style="background: #fff8f8; border-left-color: var(--warning);">
-      <strong>Note</strong>
-      <p>
-        These wireframes are conceptual and based on research assumptions. No visual sketches were created for this project.
-      </p>
-    </div>
+        <h3>The "Game Loop" Analogy</h3>
+        <p>In code, handling recurring payments is similar to handling input in a game loop. When building a racing game, we don't write code for every single time the player presses the horn. Instead, we write a <strong>Callback Function</strong> that listens for the event.</p>
+        <div class="code-concept">
+          <strong>Conceptual Logic:</strong><br>
+          Just as the game listens for <code>onPress(horn)</code>, the Latt backend listens for <code>onDate(renewal)</code>.<br><br>
+          Instead of hard-coding dates, the system uses a cron-job (the game loop) to check for <code>renewal_date <= today</code> and triggers the <code>processPayment()</code> callback. This abstraction keeps the code lightweight and scalable.
+        </div>
+      </section>
+
+      <!-- DESIGN -->
+      <section id="design">
+        <h2>05. Interface Design</h2>
+        <p>With the logic in place, the interface needed to reflect the system's status clearly.</p>
+        <h3>Wireframing the "Happy Path"</h3>
+        <p>I started with low-fidelity sketches focusing on the hierarchy of information. The priority was <strong>Next Bill Date</strong> and <strong>Cost</strong>.</p>
+        <figure>
+          <img src="assets/Home-Logged-In.png" alt="Wireframes and Early Sketches" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='Wireframe Evolution'">
+          <figcaption>Evolution from Low-Fidelity Wireframe to High-Fidelity UI.</figcaption>
+        </figure>
+      </section>
+
+      <!-- FAILURE -->
+      <section id="failure">
+        <h2>06. Failure Analysis (Teardown)</h2>
+        <p>In HCI, the "Happy Path" (when everything works) is easy. The real challenge is the "Unhappy Path." I treated Payment Failure as a primary interaction state, not an edge case.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0;">
+          <div style="background: var(--surface); padding: 20px; border-radius: 8px;">
+            <strong>Case 1: Network Error</strong>
+            <p style="font-size:0.9rem; margin-top:8px;">
+              <span style="color:var(--error);">✖ Bad UI:</span> "Something went wrong." (User panics: Did I pay?)<br>
+              <span style="color:var(--success);">✔ Latt UI:</span> Checks idempotency key. Explicitly states: "No charge was made."
+            </p>
+          </div>
+          <div style="background: var(--surface); padding: 20px; border-radius: 8px;">
+            <strong>Case 2: Insufficient Funds</strong>
+            <p style="font-size:0.9rem; margin-top:8px;">
+              <span style="color:var(--error);">✖ Bad UI:</span> "Transaction Declined." (Feels judgmental/shameful).<br>
+              <span style="color:var(--success);">✔ Latt UI:</span> "Payment could not be processed. Please check balance." (Neutral).
+            </p>
+          </div>
+        </div>
+        <h3>Interactive Failure Demo</h3>
+        <p>Click below to experience how the system de-escalates anxiety during a failure.</p>
+        <div class="prototype-container" style="text-align: center; border-color: var(--error);">
+          <button class="btn btn-fail" onclick="simulateFailure()">Simulate Failure</button>
+          <button class="btn btn-success" onclick="simulateSuccess()">Simulate Success</button>
+          <div id="demo-output"></div>
+        </div>
+      </section>
+
+      <!-- REFLECTION -->
+      <section id="reflection">
+        <h2>07. Reflection & Learnings</h2>
+        <p>Building Latt taught me that <strong>UX is dependent on Backend Architecture</strong>. You cannot design a "Transparent" UI if your database is opaque.</p>
+        <p>If I were to continue this project, I would implement the Plaid API to move beyond manual entry, but only <em>after</em> the user has manually tracked their first subscription, maintaining the trust-first onboarding flow.</p>
+      </section>
+    </main>
   </div>
-</section>
-
-    </div>
-  </div>
-</section>
-
-<section id="non-goals">
-  <div style="max-width:720px;margin:auto;">
-    <h2 style="text-align:center;">Deliberate Non-Goals</h2>
-    <div class="insight" style="background: #fff8f8; border-left-color: var(--warning);">
-      <strong>Ethical Boundaries</strong>
-      <ul>
-        <li><strong>No automatic cancellation</strong> to prevent accidental harm</li>
-        <li><strong>No dark patterns</strong> or persuasive upgrade nudges</li>
-        <li><strong>No bank-first onboarding</strong> before value demonstration</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section id="failure">
-  <div class="split">
-    <div>
-      <h2>Failure States & Risk Handling</h2>
-      <p>
-        Payment and network failures represent moments of peak anxiety.
-        These were treated as <strong>primary interactions</strong>, not edge cases.
-      </p>
-      <p>
-        Clear state visibility and messaging reassure users that their
-        money remains safe, even when systems fail.
-      </p>
-      <div class="insight" style="margin-top: 24px;">
-        <strong>Failure State Principles</strong>
-        <ul>
-          <li>Always show <strong>clear next steps</strong></li>
-          <li>Reassure users their <strong>money is safe</strong></li>
-          <li>Provide <strong>multiple recovery paths</strong></li>
-          <li>Avoid <strong>technical jargon</strong></li>
-        </ul>
-      </div>
-    </div>
-    <img src="assets/Transaction-Unsuccessful.png"
-         alt="Payment failure UI showing clear error message, reassurance, and next steps for recovery"
-         loading="lazy"
-         width="800"
-         height="600">
-  </div>
-</section>
-
-<section id="demo">
-  <div style="max-width:720px;margin:auto;">
-    <h2 style="text-align:center;">Interactive Demo</h2>
-    <div class="demo-container">
-      <h3>Payment Failure Simulation</h3>
-      <p>Click below to experience how Latt handles payment failures:</p>
-      <div style="margin: 24px 0;">
-        <button class="demo-button" onclick="simulateFailure()">Simulate Failure</button>
-        <button class="demo-button" onclick="simulateSuccess()">Simulate Success</button>
-      </div>
-      <div id="interactive-demo" class="demo-output"></div>
-    </div>
-  </div>
-</section>
-
-<div class="insight">
-  <strong>Why This Matters</strong>
-  <p>
-    Failure states are often overlooked in UX, but they are critical for
-    building trust. By designing for these moments first, we create systems
-    that users can rely on even when things go wrong.
-  </p>
-  <p style="margin-top: 12px;">
-    <a href="failure-flow-teardown.html" class="button">
-      Deep Dive: Failure Flow Teardown →
-    </a>
-  </p>
-</div>
-
-<section id="reflection">
-  <div style="max-width:600px;margin:auto;text-align:center;">
-    <h2>Reflection & Learnings</h2>
-    <div class="insight">
-      <strong>Key Takeaways</strong>
-      <ul>
-        <li>Trust is built during moments of uncertainty, not just success.</li>
-        <li>Designing for failure states first leads to more robust interfaces.</li>
-        <li>User research must inform every design decision.</li>
-        <li>Ethical considerations should guide all UX choices.</li>
-      </ul>
-    </div>
-    <div class="insight">
-      <strong>What I Would Do Differently</strong>
-      <ul>
-        <li>Conduct more user tests with diverse participants.</li>
-        <li>Explore micro-interactions for better feedback.</li>
-        <li>Document the process more thoroughly for future reference.</li>
-      </ul>
-    </div>
-    <div style="margin-top:60px;">
-      <a href="../" class="button">
-        ← Back to Portfolio
-      </a>
-      <a href="research.html" class="button" style="margin-left: 16px;">
-        Research Details →
-      </a>
-    </div>
-  </div>
-</section>
-
-</main>
 
 <script>
-  // Simulate payment failure
-  function simulateFailure() {
-    const output = document.getElementById('demo-output');
-    output.style.display = 'block';
-    output.innerHTML = `
-      <div style="color: var(--warning);">
-        <h4 style="color: var(--accent);">Payment Failed</h4>
-        <p>Your payment could not be processed. <strong>Your money is safe.</strong></p>
-        <p><strong>Next steps:</strong></p>
-        <ul>
-          <li>Check your internet connection</li>
-          <li>Verify your payment details</li>
-          <li><a href="#" onclick="simulateSuccess()">Retry payment</a></li>
-          <li><a href="#">Contact support</a></li>
-        </ul>
-        <p style="font-size: 0.8rem; margin-top: 8px;">Error code: PAY-402</p>
-      </div>
-    `;
-    // Scroll to output
-    output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
+  // MOCK DATABASE
+  let subscriptions = [
+    { id: 1, name: "Netflix Premium", cost: 649, renewalDate: "2026-02-15", category: "Entertainment" },
+    { id: 2, name: "Spotify", cost: 119, renewalDate: "2026-01-30", category: "Entertainment" },
+    { id: 3, name: "AWS Cloud", cost: 1200, renewalDate: "2026-03-01", category: "Utilities" }
+  ];
 
-  // Simulate payment success
-  function simulateSuccess() {
-    const output = document.getElementById('demo-output');
-    output.style.display = 'block';
-    output.innerHTML = `
-      <div style="color: var(--success);">
-        <h4 style="color: var(--accent);">Payment Successful!</h4>
-        <p>Your subscription is active. You'll receive a confirmation email shortly.</p>
-        <div style="margin-top: 16px; background: var(--surface); padding: 12px; border-radius: 6px;">
-          <p><strong>Subscription:</strong> Latt Premium</p>
-          <p><strong>Amount:</strong> ₹299/month</p>
-          <p><strong>Next billing:</strong> 15 June 2026</p>
-        </div>
-        <p style="margin-top: 12px;"><a href="#">Manage subscription</a></p>
-      </div>
-    `;
-    // Scroll to output
-    output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
+  // DOM ELEMENTS
+  const list = document.getElementById("subscriptions-list");
+  const emptyState = document.getElementById("empty-state");
+  const authModal = document.getElementById("auth-modal");
+  const addModal = document.getElementById("add-sub-modal");
 
-  // Animate insights on scroll
-  document.addEventListener('DOMContentLoaded', function() {
-    const insights = document.querySelectorAll('.insight');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.animationPlayState = 'running';
-        }
+  // RENDER LIST
+  function render() {
+    if (subscriptions.length === 0) {
+      list.style.display = "none";
+      emptyState.style.display = "block";
+    } else {
+      list.style.display = "grid";
+      emptyState.style.display = "none";
+      list.innerHTML = "";
+      subscriptions.forEach(sub => {
+        list.innerHTML += `
+          <div class="subscription-item">
+            <h3>${sub.name}</h3>
+            <p><strong>₹${sub.cost}</strong> / month</p>
+            <p>Renews: ${formatDate(sub.renewalDate)}</p>
+            <span class="category">${sub.category}</span>
+            <button class="btn btn-fail btn-sm" onclick="removeSub(${sub.id})">Cancel Plan</button>
+          </div>
+        `;
       });
-    }, { threshold: 0.1 });
+    }
+  }
 
-    insights.forEach(insight => observer.observe(insight));
+  // FORMAT DATE FOR DISPLAY
+  function formatDate(dateString) {
+    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-IN', options);
+  }
+
+  // ADD SUB
+  document.getElementById("add-sub-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("sub-name").value;
+    const cost = document.getElementById("sub-cost").value;
+    const date = document.getElementById("sub-renewal").value;
+    const cat = document.getElementById("sub-category").value;
+
+    subscriptions.push({
+      id: Date.now(),
+      name,
+      cost: parseInt(cost),
+      renewalDate: date,
+      category: cat
+    });
+    render();
+    addModal.style.display = "none";
+    document.getElementById("add-sub-form").reset();
   });
+
+  // REMOVE SUB
+  function removeSub(id) {
+    if(confirm("Are you sure you want to cancel this subscription?")) {
+      subscriptions = subscriptions.filter(s => s.id !== id);
+      render();
+    }
+  }
+
+  // SIMULATIONS
+  function simulateFailure() {
+    const out = document.getElementById("demo-output");
+    out.style.display = "block";
+    out.style.borderLeft = "4px solid var(--error)";
+    out.innerHTML = `
+      <h4 style="color:var(--error); margin-bottom:8px">⚠ Payment Failed</h4>
+      <p style="margin:0">No money was deducted. We confirmed your account was not charged.</p>
+    `;
+  }
+
+  function simulateSuccess() {
+    const out = document.getElementById("demo-output");
+    out.style.display = "block";
+    out.style.borderLeft = "4px solid var(--success)";
+    out.innerHTML = `
+      <h4 style="color:var(--success); margin-bottom:8px">✔ Payment Successful</h4>
+      <p style="margin:0">Your subscription is active until your next billing date.</p>
+    `;
+  }
+
+  // MODAL TRIGGERS
+  document.getElementById("login-btn").onclick = () => authModal.style.display = "block";
+  document.getElementById("add-sub-btn").onclick = () => addModal.style.display = "block";
+
+  // CLOSE MODALS
+  document.querySelectorAll(".close").forEach(el => {
+    el.onclick = function() { this.closest(".modal").style.display = "none"; }
+  });
+  window.onclick = (e) => {
+    if (e.target.classList.contains('modal')) e.target.style.display = "none";
+  }
+
+  // INIT
+  render();
 </script>
 
 </body>
