@@ -11,14 +11,14 @@
   :root {
     --text-main: #111;
     --text-muted: #666;
-    --accent: #004493;
+    --accent: #0f172a; /* Latt Navy */
     --bg: #fff;
     --surface: #f8f9fa;
     --border: #e0e0e0;
     --code-bg: #1e1e1e;
     --success: #2E7D32;
     --error: #D32F2F;
-    --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-stack: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --transition: all 0.2s ease;
   }
 
@@ -81,7 +81,7 @@
     border-bottom: 1px solid var(--border);
     color: var(--accent);
   }
-  h3 { font-size: 1.2rem; margin-top: 40px; margin-bottom: 16px; }
+  h3 { font-size: 1.2rem; margin-top: 40px; margin-bottom: 16px; font-weight: 600; }
   p { margin-bottom: 20px; color: var(--text-muted); font-size: 1rem; }
 
   /* META GRID */
@@ -117,6 +117,7 @@
     text-align: center;
     border-top: 1px solid var(--border);
     background: var(--surface);
+    font-style: italic;
   }
 
   /* INSIGHT BOXES */
@@ -182,8 +183,7 @@
     display: inline-block;
     margin-bottom: 12px;
   }
-  .subscription-item .btn { width: 100%; margin-top: 12px; }
-
+  
   /* BUTTONS */
   .btn {
     padding: 10px 16px;
@@ -195,7 +195,7 @@
     transition: var(--transition);
   }
   .btn-primary { background: var(--accent); color: white; }
-  .btn-primary:hover { background: #003377; }
+  .btn-primary:hover { opacity: 0.9; }
   .btn-fail { background: var(--error); color: white; }
   .btn-fail:hover { background: #b71c1c; }
   .btn-success { background: var(--success); color: white; }
@@ -280,7 +280,6 @@
 
 <body>
 
-  <!-- MODALS -->
   <div id="auth-modal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -303,25 +302,20 @@
           <option value="Netflix">
           <option value="Spotify">
           <option value="Amazon Prime">
-          <option value="Disney+ Hotstar">
-          <option value="Zomato Pro">
         </datalist>
-        <input type="text" id="sub-cost" placeholder="Monthly Cost (₹)" inputmode="numeric" pattern="[0-9]*" required />
+        <input type="text" id="sub-cost" placeholder="Monthly Cost (₹)" inputmode="numeric" required />
         <label style="font-size: 0.8rem; color: #666;">Renewal Date</label>
         <input type="date" id="sub-renewal" required />
         <select id="sub-category" required>
           <option value="">Select Category</option>
           <option value="Entertainment">Entertainment</option>
           <option value="Utilities">Utilities</option>
-          <option value="Fitness">Fitness</option>
-          <option value="Food">Food</option>
         </select>
         <button type="submit" class="btn btn-primary" style="width:100%">Add Subscription</button>
       </form>
     </div>
   </div>
 
-  <!-- MAIN LAYOUT -->
   <div class="layout">
     <aside class="sidebar">
       <a href="index.html" class="back-link">← Back to Home</a>
@@ -329,21 +323,22 @@
         <ul>
           <li><a href="#overview">01. Overview</a></li>
           <li><a href="#research">02. Research & Ethics</a></li>
-          <li><a href="#prototype">03. Live Prototype</a></li>
+          <li><a href="#feasibility">03. Feasibility (New)</a></li>
           <li><a href="#logic">04. Engineering Logic</a></li>
           <li><a href="#design">05. Interface Design</a></li>
-          <li><a href="#failure">06. Failure Analysis</a></li>
-          <li><a href="#reflection">07. Reflection</a></li>
+          <li><a href="#intentionality">06. Intentionality (New)</a></li>
+          <li><a href="#failure">07. Failure Analysis</a></li>
+          <li><a href="#roadmap">08. Future Roadmap (New)</a></li>
+          <li><a href="#prototype">09. Live Prototype</a></li>
+          <li><a href="#reflection">10. Reflection</a></li>
         </ul>
       </nav>
       <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;">
-        <p style="font-size: 0.8rem; margin-bottom: 8px;">Admin Access</p>
         <button id="login-btn" class="btn btn-primary" style="width: 100%;">Login to Latt</button>
       </div>
     </aside>
 
     <main>
-      <!-- OVERVIEW -->
       <header id="overview">
         <h1>Latt Subscription Manager</h1>
         <p style="font-size: 1.2rem; color: var(--text-main);">
@@ -360,7 +355,6 @@
         </figure>
       </header>
 
-      <!-- RESEARCH -->
       <section id="research">
         <h2>02. Research & Ethical Framework</h2>
         <p>
@@ -376,84 +370,89 @@
         </div>
       </section>
 
-      <!-- PROTOTYPE -->
-      <section id="prototype">
-        <h2>03. Live Prototype</h2>
-        <p>I built this functional component to test the "Add Subscription" flow. You can interact with the mock database below to see how the list updates dynamically.</p>
-        <div class="prototype-container">
-          <div class="prototype-header">
-            <h3 style="margin:0;">Active Subscriptions</h3>
-            <button id="add-sub-btn" class="btn btn-primary">+ Add New</button>
-          </div>
-          <div id="subscriptions-list" class="subscriptions-grid">
-            <!-- Dynamically populated -->
-          </div>
-          <div id="empty-state" class="empty-state" style="display: none;">
-            <i>📱</i>
-            <p>No subscriptions yet.<br>Add one to track your spending!</p>
-          </div>
-        </div>
-        <div class="insight" style="background: #eef9f0; border-left-color: var(--success);">
-          <strong>Engineering Note:</strong> This prototype uses a local Javascript array to simulate the SQL database response. In the production version, this connects to the <code>/api/subscriptions</code> endpoint.
-        </div>
+      <section id="feasibility">
+        <h2>03. Balancing Feasibility & Usability</h2>
+        <p>
+          <strong>The Automation Bottleneck:</strong> The ideal user experience for a subscription manager is "Zero-Input" discovery via open banking APIs (e.g., Plaid). However, the implementation costs and security compliance requirements (SOC2) rendered this unfeasible for the MVP architecture.
+        </p>
+        <p>
+          <strong>The Pivot: From Automation to Agency.</strong> Rather than shipping a broken or insecure automation feature, I pivoted to a <strong>Manual Entry Model</strong>. The design challenge shifted from "data display" to "data input efficiency."
+        </p>
+        <figure>
+          <img src="assets/manuall-entry-logic.png" alt="Manual Entry Form with horizontal grouping" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: Manual Entry Form]'">
+          <figcaption>Cognitive Offloading: Utilizing input grouping (Currency + Amount) and predictive categorization to reduce friction.</figcaption>
+        </figure>
+        <p>
+          By placing related fields (Currency + Amount) in a horizontal flex-row within the codebase, I reduced the vertical scanning distance, making the manual process feel less like data entry and more like a quick check-in.
+        </p>
       </section>
 
-      <!-- LOGIC -->
       <section id="logic">
         <h2>04. The Engineering Logic</h2>
         <p>As a student of Mathematics, I approached the backend not just as data storage, but as a system of relations.</p>
+        
+        <h3>Data-Driven Interface Design</h3>
+        <p>
+          The interface is not just a layout; it is a direct visual manifestation of the underlying PostgreSQL schema. I utilized a <strong>Relational Database Management System (RDBMS)</strong> to normalize user data, separating <code>Users</code>, <code>Services</code>, and <code>Subscriptions</code> to ensure data integrity (3NF).
+        </p>
         <figure>
-          <img src="assets/Entity-Relationship.png" alt="SQL Database Schema showing 3NF Normalization" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='Database Schema'">
-          <figcaption>The 3NF Schema: Separating Users from Services to prevent data redundancy.</figcaption>
+          <img src="assets/db-to-ui-map.png" alt="Schema to Screen Mapping" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: DB Schema -> UI Map]'">
+          <figcaption>Schema-to-Screen Mapping: Visualizing how the 3NF database structure dictates the Dashboard hierarchy.</figcaption>
         </figure>
-        <h3>Database Normalization (3NF)</h3>
-        <p>A common failure in junior projects is redundancy—storing subscription details directly in the user table. To solve this, I normalized the database to Third Normal Form (3NF).</p>
-        <ul style="margin-bottom: 24px; padding-left: 20px; color: var(--text-muted);">
-          <li><strong>Users Table:</strong> Authentication & Settings.</li>
-          <li><strong>Services Table:</strong> Static data (Netflix, Spotify definitions).</li>
-          <li><strong>Subscriptions Table:</strong> The dynamic link (Start date, Renewal cycle).</li>
-        </ul>
+        <p>
+          <strong>Query-Driven Layout:</strong> The "Upcoming Bills" card is the result of an SQL query (`ORDER BY renewal_date ASC`). This ensures the user's <strong>Mental Model</strong> (prioritizing immediate debts) aligns perfectly with the <strong>System Model</strong> (temporal sorting of data).
+        </p>
+
         <h3>The "Game Loop" Analogy</h3>
         <p>In code, handling recurring payments is similar to handling input in a game loop. When building a racing game, we don't write code for every single time the player presses the horn. Instead, we write a <strong>Callback Function</strong> that listens for the event.</p>
         <div class="code-concept">
           <strong>Conceptual Logic:</strong><br>
           Just as the game listens for <code>onPress(horn)</code>, the Latt backend listens for <code>onDate(renewal)</code>.<br><br>
-          Instead of hard-coding dates, the system uses a cron-job (the game loop) to check for <code>renewal_date <= today</code> and triggers the <code>processPayment()</code> callback. This abstraction keeps the code lightweight and scalable.
+          Instead of hard-coding dates, the system uses a cron-job (the game loop) to check for <code>renewal_date <= today</code> and triggers the <code>processPayment()</code> callback.
         </div>
       </section>
 
-      <!-- DESIGN -->
       <section id="design">
         <h2>05. Interface Design</h2>
         <p>With the logic in place, the interface needed to reflect the system's status clearly.</p>
         <h3>Wireframing the "Happy Path"</h3>
         <p>I started with low-fidelity sketches focusing on the hierarchy of information. The priority was <strong>Next Bill Date</strong> and <strong>Cost</strong>.</p>
         <figure>
-          <img src="assets/Home-Logged-In.png" alt="Wireframes and Early Sketches" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='Wireframe Evolution'">
+          <img src="assets/Home-Logged-In.png" alt="Wireframes" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='Wireframe Evolution'">
           <figcaption>Evolution from Low-Fidelity Wireframe to High-Fidelity UI.</figcaption>
         </figure>
       </section>
 
-      <!-- FAILURE -->
+      <section id="intentionality">
+        <h2>06. Intentionality & Micro-interactions</h2>
+        <p>
+          Every pixel must have a purpose. I specifically focused on the "Cancel Subscription" flow to ensure the design did not rely on dark patterns, but rather on clear communication.
+        </p>
+        <figure>
+          <img src="assets/button-logic.png" alt="Red Button Exploration vs Final Decision" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: Red Button Psychology]'">
+          <figcaption>Leveraging Mental Models: Using "Ghost Buttons" to provide necessary friction without overwhelming visual weight.</figcaption>
+        </figure>
+        <p>
+          <strong>Rationale:</strong> I leveraged the user's existing mental model where red indicates a destructive action. However, a solid red button creates excessive visual weight. By utilizing an outline style (Ghost Button), I maintained the caution signal acting as a necessary <strong>friction point</strong>, forcing the user to pause, without dominating the interface.
+        </p>
+      </section>
+
       <section id="failure">
-        <h2>06. Failure Analysis (Teardown)</h2>
-        <p>In HCI, the "Happy Path" (when everything works) is easy. The real challenge is the "Unhappy Path." I treated Payment Failure as a primary interaction state, not an edge case.</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0;">
-          <div style="background: var(--surface); padding: 20px; border-radius: 8px;">
-            <strong>Case 1: Network Error</strong>
-            <p style="font-size:0.9rem; margin-top:8px;">
-              <span style="color:var(--error);">✖ Bad UI:</span> "Something went wrong." (User panics: Did I pay?)<br>
-              <span style="color:var(--success);">✔ Latt UI:</span> Checks idempotency key. Explicitly states: "No charge was made."
-            </p>
-          </div>
-          <div style="background: var(--surface); padding: 20px; border-radius: 8px;">
-            <strong>Case 2: Insufficient Funds</strong>
-            <p style="font-size:0.9rem; margin-top:8px;">
-              <span style="color:var(--error);">✖ Bad UI:</span> "Transaction Declined." (Feels judgmental/shameful).<br>
-              <span style="color:var(--success);">✔ Latt UI:</span> "Payment could not be processed. Please check balance." (Neutral).
-            </p>
-          </div>
-        </div>
+        <h2>07. Resilience & Failure Analysis</h2>
+        <p>In HCI, the "Happy Path" (when everything works) is easy. The real challenge is the "Unhappy Path."</p>
+
+        <h3>Constraint-Based Design</h3>
+        <p>
+            <strong>Critique of Generic Feedback:</strong> High cognitive load occurs when errors are vague ("Error!"). This forces the user to scan the entire form to locate the mistake.
+        </p>
+        <figure>
+            <img src="assets/error-logic.png" alt="Error Handling Evolution" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: Error States]'">
+            <figcaption>From Ambiguity to Clarity: Evolution of the error state to reduce the Gulf of Evaluation.</figcaption>
+        </figure>
+        <p>
+            <strong>The Solution (False Affordance):</strong> In early iterations, the "Continue" button remained active during errors. The final design disables the primary action until valid input is detected. Furthermore, addressing Network Errors, I added an 'Exit' button to satisfy Nielsen’s heuristic of <strong>User Control and Freedom</strong>.
+        </p>
+
         <h3>Interactive Failure Demo</h3>
         <p>Click below to experience how the system de-escalates anxiety during a failure.</p>
         <div class="prototype-container" style="text-align: center; border-color: var(--error);">
@@ -463,9 +462,41 @@
         </div>
       </section>
 
-      <!-- REFLECTION -->
+      <section id="roadmap">
+        <h2>08. Future Roadmap: Defining the MVP</h2>
+        <p>
+           A key part of engineering is knowing what <em>not</em> to build.
+        </p>
+        <figure>
+          <img src="assets/v2-prototype.png" alt="Code Screenshot + Alert Popup" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: V2 Roadmap Alert]'">
+          <figcaption>Honest Prototyping: Using hard-coded alerts to test feature desirability before investing in feasibility.</figcaption>
+        </figure>
+        <p>
+            <strong>Desirability vs. Feasibility:</strong> For complex features like PDF parsing (OCR), I implemented "Wizard of Oz" placeholders. By using hard-coded alerts to signal future intent, I established a clear boundary between the MVP and the V2 roadmap, avoiding technical debt on unvalidated features.
+        </p>
+      </section>
+
+      <section id="prototype">
+        <h2>09. Live Prototype</h2>
+        <p>I built this functional component to test the "Add Subscription" flow logic.</p>
+        <div class="prototype-container">
+          <div class="prototype-header">
+            <h3 style="margin:0;">Active Subscriptions</h3>
+            <button id="add-sub-btn" class="btn btn-primary">+ Add New</button>
+          </div>
+          <div id="subscriptions-list" class="subscriptions-grid"></div>
+          <div id="empty-state" class="empty-state" style="display: none;">
+            <i>📱</i>
+            <p>No subscriptions yet.<br>Add one to track your spending!</p>
+          </div>
+        </div>
+        <div class="insight" style="background: #eef9f0; border-left-color: var(--success);">
+          <strong>Engineering Note:</strong> This prototype uses a local Javascript array to simulate the SQL database response.
+        </div>
+      </section>
+
       <section id="reflection">
-        <h2>07. Reflection & Learnings</h2>
+        <h2>10. Reflection & Learnings</h2>
         <p>Building Latt taught me that <strong>UX is dependent on Backend Architecture</strong>. You cannot design a "Transparent" UI if your database is opaque.</p>
         <p>If I were to continue this project, I would implement the Plaid API to move beyond manual entry, but only <em>after</em> the user has manually tracked their first subscription, maintaining the trust-first onboarding flow.</p>
       </section>
@@ -509,7 +540,7 @@
     }
   }
 
-  // FORMAT DATE FOR DISPLAY
+  // FORMAT DATE
   function formatDate(dateString) {
     const options = { day: 'numeric', month: 'short', year: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-IN', options);
