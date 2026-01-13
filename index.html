@@ -237,18 +237,44 @@
   .close:hover { color: #000; }
 
   /* FORMS */
-  input, select {
+input, select {
     width: 100%;
     padding: 12px;
-    margin: 8px 0 16px;
+    /* Increased bottom margin for better "Chunking" */
+    margin: 4px 0 20px; 
     border: 1px solid var(--border);
     border-radius: 6px;
     font-size: 1rem;
     transition: var(--transition);
   }
-  input:focus, select:focus { border-color: var(--accent); outline: none; }
-  label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
+  
+  input:focus, select:focus { 
+    border-color: var(--accent); 
+    outline: none; 
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1); /* Visual feedback focus state */
+  }
+  /* TACTIC #11: SINGLE COLUMN LABELS */
+  /* We make labels darker and mandatory for better scanning */
+  label { 
+    font-size: 0.9rem; 
+    font-weight: 600; /* Bolder for scanning */
+    color: var(--text-main); /* Darker than muted text */
+    display: block; 
+    margin-bottom: 4px; 
+  }
 
+  /* TACTIC #42: MICROCOPY */
+  /* Small text to reduce anxiety under buttons */
+  .microcopy {
+    display: block;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 12px;
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+  }
   /* DEMO OUTPUT */
   #demo-output {
     margin-top: 24px;
@@ -296,22 +322,35 @@
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2 style="margin: 0 0 20px; font-size: 1.5rem; border: none;">New Subscription</h2>
-      <form id="add-sub-form">
-        <input type="text" id="sub-name" placeholder="Service Name (e.g. Netflix)" list="service-suggestions" required />
+     <form id="add-sub-form">
+        
+        <label for="sub-name">Service Name</label>
+        <input type="text" id="sub-name" placeholder="e.g. Netflix" list="service-suggestions" required />
         <datalist id="service-suggestions">
           <option value="Netflix">
           <option value="Spotify">
           <option value="Amazon Prime">
         </datalist>
-        <input type="text" id="sub-cost" placeholder="Monthly Cost (₹)" inputmode="numeric" required />
-        <label style="font-size: 0.8rem; color: #666;">Renewal Date</label>
+
+        <label for="sub-cost">Monthly Cost</label>
+        <input type="text" id="sub-cost" placeholder="₹ 0.00" inputmode="numeric" required />
+
+        <label for="sub-renewal">Next Renewal Date</label>
         <input type="date" id="sub-renewal" required />
+
+        <label for="sub-category">Category</label>
         <select id="sub-category" required>
           <option value="">Select Category</option>
           <option value="Entertainment">Entertainment</option>
           <option value="Utilities">Utilities</option>
         </select>
+
         <button type="submit" class="btn btn-primary" style="width:100%">Add Subscription</button>
+        
+        <small class="microcopy">
+          🔒 <strong>Private & Secure:</strong> Data is stored locally on your device. No bank connection required.
+        </small>
+
       </form>
     </div>
   </div>
@@ -614,6 +653,7 @@
 </body>
 
 </html>
+
 
 
 
