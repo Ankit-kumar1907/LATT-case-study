@@ -1,307 +1,432 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Latt Subscription Manager: A case study on ethical UX and backend logic.">
   <title>Latt — Technical Case Study</title>
 
-<style>
-  /* ========= VARIABLES ========= */
-  :root {
-    --text-main: #111;
-    --text-muted: #666;
-    --accent: #0f172a; /* Latt Navy */
-    --bg: #fff;
-    --surface: #f8f9fa;
-    --border: #e0e0e0;
-    --code-bg: #1e1e1e;
-    --success: #2E7D32;
-    --error: #D32F2F;
-    --font-stack: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --transition: all 0.2s ease;
-  }
+  <style>
+    /* ========= VARIABLES ========= */
+    :root {
+      --text-main: #111;
+      --text-muted: #666;
+      --accent: #0f172a;
+      /* Latt Navy */
+      --bg: #fff;
+      --surface: #f8f9fa;
+      --border: #e0e0e0;
+      --code-bg: #1e1e1e;
+      --success: #2E7D32;
+      --error: #D32F2F;
+      --font-stack: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --transition: all 0.2s ease;
+    }
 
-  /* ========= BASE STYLES ========= */
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font-stack);
-    color: var(--text-main);
-    line-height: 1.7;
-    background: var(--bg);
-  }
-  a { text-decoration: none; color: var(--accent); }
-  button, input, select { font-family: inherit; }
+    /* ========= BASE STYLES ========= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  /* ========= LAYOUT ========= */
-  .layout {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    max-width: 1100px;
-    margin: 0 auto;
-    gap: 60px;
-    padding: 0 24px;
-  }
+    html {
+      scroll-behavior: smooth;
+    }
 
-  /* ========= SIDEBAR ========= */
-  .sidebar {
-    position: sticky;
-    top: 40px;
-    height: fit-content;
-    padding-top: 60px;
-    border-right: 1px solid var(--border);
-  }
-  .sidebar ul { list-style: none; padding: 0; }
-  .sidebar li { margin-bottom: 12px; }
-  .sidebar a {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    font-weight: 500;
-    display: block;
-    padding: 4px 0;
-    transition: var(--transition);
-  }
-  .sidebar a:hover { color: var(--accent); transform: translateX(4px); }
-  .sidebar .back-link {
-    margin-bottom: 32px;
-    color: var(--text-main);
-    font-weight: 700;
-    display: block;
-  }
+    body {
+      font-family: var(--font-stack);
+      color: var(--text-main);
+      line-height: 1.7;
+      background: var(--bg);
+    }
 
-  /* ========= MAIN CONTENT ========= */
-  main { padding-top: 60px; padding-bottom: 120px; max-width: 720px; }
-  h1 { font-size: 2.5rem; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 24px; }
-  h2 {
-    font-size: 1.6rem;
-    margin-top: 80px;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-    color: var(--accent);
-  }
-  h3 { font-size: 1.2rem; margin-top: 40px; margin-bottom: 16px; font-weight: 600; }
-  p { margin-bottom: 20px; color: var(--text-muted); font-size: 1rem; }
+    a {
+      text-decoration: none;
+      color: var(--accent);
+    }
 
-  /* META GRID */
-  .meta-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 60px;
-    padding-bottom: 40px;
-    border-bottom: 1px solid var(--border);
-  }
-  .meta-item strong {
-    display: block;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
-  }
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
 
-  /* IMAGES */
-  figure {
-    margin: 40px 0;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    background: var(--surface);
-  }
-  figure img { width: 100%; display: block; }
-  figcaption {
-    padding: 12px;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    text-align: center;
-    border-top: 1px solid var(--border);
-    background: var(--surface);
-    font-style: italic;
-  }
+    /* ========= LAYOUT ========= */
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      max-width: 1100px;
+      margin: 0 auto;
+      gap: 60px;
+      padding: 0 24px;
+    }
 
-  /* INSIGHT BOXES */
-  .insight {
-    background: #f0f7ff;
-    border-left: 4px solid var(--accent);
-    padding: 24px;
-    margin: 32px 0;
-    border-radius: 0 8px 8px 0;
-    font-size: 0.95rem;
-  }
-  .code-concept {
-    font-family: 'Courier New', monospace;
-    background: var(--surface);
-    padding: 24px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    font-size: 0.9rem;
-    color: #333;
-    margin: 24px 0;
-  }
+    /* ========= SIDEBAR ========= */
+    .sidebar {
+      position: sticky;
+      top: 40px;
+      height: fit-content;
+      padding-top: 60px;
+      border-right: 1px solid var(--border);
+    }
 
-  /* PROTOTYPE CONTAINER */
-  .prototype-container {
-    background: #fff;
-    border: 2px solid var(--accent);
-    border-radius: 12px;
-    padding: 32px;
-    margin: 40px 0;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.05);
-    transition: var(--transition);
-  }
-  .prototype-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 16px;
-  }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
 
-  /* SUBSCRIPTIONS GRID */
-  .subscriptions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px;
-  }
-  .subscription-item {
-    background: var(--surface);
-    padding: 16px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    transition: var(--transition);
-  }
-  .subscription-item:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-  .subscription-item h3 { margin-bottom: 8px; font-size: 1.1rem; }
-  .subscription-item p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; }
-  .subscription-item .category {
-    font-size: 0.75rem;
-    background: #eee;
-    padding: 2px 8px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-bottom: 12px;
-  }
-  
-  /* BUTTONS */
-  .btn {
-    padding: 10px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: var(--transition);
-  }
-  .btn-primary { background: var(--accent); color: white; }
-  .btn-primary:hover { opacity: 0.9; }
-  .btn-fail { background: var(--error); color: white; }
-  .btn-fail:hover { background: #b71c1c; }
-  .btn-success { background: var(--success); color: white; }
-  .btn-success:hover { background: #1b5e20; }
-  .btn-sm { font-size: 0.8rem; padding: 6px 12px; }
+    .sidebar li {
+      margin-bottom: 12px;
+    }
 
-  /* MODALS */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(2px);
-    animation: fadeIn 0.3s;
-  }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  .modal-content {
-    background: var(--bg);
-    margin: 15% auto;
-    padding: 32px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-    animation: slideUp 0.3s;
-  }
-  @keyframes slideUp { from { transform: translateY(20px); } to { transform: translateY(0); } }
-  .close {
-    float: right;
-    font-size: 24px;
-    cursor: pointer;
-    color: #999;
-    transition: var(--transition);
-  }
-  .close:hover { color: #000; }
+    .sidebar a {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: block;
+      padding: 4px 0;
+      transition: var(--transition);
+    }
 
-  /* FORMS */
-input, select {
-    width: 100%;
-    padding: 12px;
-    /* Increased bottom margin for better "Chunking" */
-    margin: 4px 0 20px; 
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: var(--transition);
-  }
-  
-  input:focus, select:focus { 
-    border-color: var(--accent); 
-    outline: none; 
-    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1); /* Visual feedback focus state */
-  }
-  /* TACTIC #11: SINGLE COLUMN LABELS */
-  /* We make labels darker and mandatory for better scanning */
-  label { 
-    font-size: 0.9rem; 
-    font-weight: 600; /* Bolder for scanning */
-    color: var(--text-main); /* Darker than muted text */
-    display: block; 
-    margin-bottom: 4px; 
-  }
+    .sidebar a:hover {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
 
-  /* TACTIC #42: MICROCOPY */
-  /* Small text to reduce anxiety under buttons */
-  .microcopy {
-    display: block;
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-top: 12px;
-    background: #f8f9fa;
-    padding: 8px;
-    border-radius: 4px;
-  }
-  /* DEMO OUTPUT */
-  #demo-output {
-    margin-top: 24px;
-    text-align: left;
-    display: none;
-    padding: 16px;
-    background: var(--surface);
-    border-radius: 6px;
-    border-left: 4px solid transparent;
-  }
+    .sidebar .back-link {
+      margin-bottom: 32px;
+      color: var(--text-main);
+      font-weight: 700;
+      display: block;
+    }
 
-  /* EMPTY STATE */
-  .empty-state {
-    text-align: center;
-    padding: 40px;
-    color: var(--text-muted);
-    grid-column: 1 / -1;
-  }
-  .empty-state i { font-size: 2rem; margin-bottom: 16px; display: block; }
+    /* ========= MAIN CONTENT ========= */
+    main {
+      padding-top: 60px;
+      padding-bottom: 120px;
+      max-width: 720px;
+    }
 
-  /* RESPONSIVE */
-  @media (max-width: 850px) {
-    .layout { grid-template-columns: 1fr; gap: 0; }
-    .sidebar { display: none; }
-    .subscriptions-grid { grid-template-columns: 1fr; }
-  }
-</style>
+    h1 {
+      font-size: 2.5rem;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-top: 80px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--accent);
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin-top: 40px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    p {
+      margin-bottom: 20px;
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* META GRID */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 60px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .meta-item strong {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    /* IMAGES */
+    figure {
+      margin: 40px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    figure img {
+      width: 100%;
+      display: block;
+    }
+
+    figcaption {
+      padding: 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      font-style: italic;
+    }
+
+    /* INSIGHT BOXES */
+    .insight {
+      background: #f0f7ff;
+      border-left: 4px solid var(--accent);
+      padding: 24px;
+      margin: 32px 0;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+    }
+
+    .code-concept {
+      font-family: 'Courier New', monospace;
+      background: var(--surface);
+      padding: 24px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: #333;
+      margin: 24px 0;
+    }
+
+    /* PROTOTYPE CONTAINER */
+    .prototype-container {
+      background: #fff;
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 32px;
+      margin: 40px 0;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+      transition: var(--transition);
+    }
+
+    .prototype-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+
+    /* SUBSCRIPTIONS GRID */
+    .subscriptions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .subscription-item {
+      background: var(--surface);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .subscription-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .subscription-item h3 {
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .subscription-item p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .subscription-item .category {
+      font-size: 0.75rem;
+      background: #eee;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    /* BUTTONS */
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    .btn-fail {
+      background: var(--error);
+      color: white;
+    }
+
+    .btn-fail:hover {
+      background: #b71c1c;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #1b5e20;
+    }
+
+    .btn-sm {
+      font-size: 0.8rem;
+      padding: 6px 12px;
+    }
+
+    /* MODALS */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(2px);
+      animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .modal-content {
+      background: var(--bg);
+      margin: 15% auto;
+      padding: 32px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.3s;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+      }
+
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .close {
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+      transition: var(--transition);
+    }
+
+    .close:hover {
+      color: #000;
+    }
+
+    /* FORMS */
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* DEMO OUTPUT */
+    #demo-output {
+      margin-top: 24px;
+      text-align: left;
+      display: none;
+      padding: 16px;
+      background: var(--surface);
+      border-radius: 6px;
+      border-left: 4px solid transparent;
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+      grid-column: 1 / -1;
+    }
+
+    .empty-state i {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 850px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .subscriptions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -322,59 +447,46 @@ input, select {
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2 style="margin: 0 0 20px; font-size: 1.5rem; border: none;">New Subscription</h2>
-     <form id="add-sub-form">
-        
-        <label for="sub-name">Service Name</label>
-        <input type="text" id="sub-name" placeholder="e.g. Netflix" list="service-suggestions" required />
+      <form id="add-sub-form">
+        <input type="text" id="sub-name" placeholder="Service Name (e.g. Netflix)" list="service-suggestions"
+          required />
         <datalist id="service-suggestions">
           <option value="Netflix">
           <option value="Spotify">
           <option value="Amazon Prime">
         </datalist>
-
-        <label for="sub-cost">Monthly Cost</label>
-        <input type="text" id="sub-cost" placeholder="₹ 0.00" inputmode="numeric" required />
-
-        <label for="sub-renewal">Next Renewal Date</label>
+        <input type="text" id="sub-cost" placeholder="Monthly Cost (₹)" inputmode="numeric" required />
+        <label style="font-size: 0.8rem; color: #666;">Renewal Date</label>
         <input type="date" id="sub-renewal" required />
-
-        <label for="sub-category">Category</label>
         <select id="sub-category" required>
           <option value="">Select Category</option>
           <option value="Entertainment">Entertainment</option>
           <option value="Utilities">Utilities</option>
         </select>
-
         <button type="submit" class="btn btn-primary" style="width:100%">Add Subscription</button>
-        
-        <small class="microcopy">
-          🔒 <strong>Private & Secure:</strong> Data is stored locally on your device. No bank connection required.
-        </small>
-
       </form>
     </div>
   </div>
 
   <div class="layout">
     <aside class="sidebar">
-    <a href="https://ankit-kumar1907.github.io/" class="back-link">Back to Home</a>
+      <a href="portfolio/index.html" class="back-link">← Back to Home</a>
       <nav>
         <ul>
           <li><a href="#overview">01. Overview</a></li>
-          <li><a href="#research">02. Research & Ethics</a></li>
-          <li><a href="#feasibility">03. Feasibility (New)</a></li>
-          <li><a href="#logic">04. Engineering Logic</a></li>
-          <li><a href="#design">05. Interface Design</a></li>
-          <li><a href="#intentionality">06. Intentionality (New)</a></li>
-          <li><a href="#failure">07. Failure Analysis</a></li>
-          <li><a href="#roadmap">08. Future Roadmap (New)</a></li>
-          <li><a href="#prototype">09. Live Prototype</a></li>
-          <li><a href="#reflection">10. Reflection</a></li>
+          <li><a href="#methodology">02. Research Methodology</a></li>
+          <li><a href="#research">03. Research & Ethics</a></li>
+          <li><a href="#feasibility">04. Feasibility (New)</a></li>
+          <li><a href="#logic">05. Engineering Logic</a></li>
+          <li><a href="#design">06. Interface Design</a></li>
+          <li><a href="#intentionality">07. Intentionality (New)</a></li>
+          <li><a href="#failure">08. Failure Analysis</a></li>
+          <li><a href="#roadmap">09. Future Roadmap (New)</a></li>
+          <li><a href="#prototype">10. Live Prototype</a></li>
+          <li><a href="#reflection">11. Reflection</a></li>
+          <li><a href="#references">12. References</a></li>
         </ul>
       </nav>
-      <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;">
-        <button id="login-btn" class="btn btn-primary" style="width: 100%;">Login to Latt</button>
-      </div>
     </aside>
 
     <main>
@@ -383,113 +495,184 @@ input, select {
         <p style="font-size: 1.2rem; color: var(--text-main);">
           Realigning system persistence with user intent through database logic and ethical UI.
         </p>
+        <div class="insight">
+          <strong>Designed for:</strong> Urban professionals
+          and students managing 5+ recurring digital
+          subscriptions who want financial visibility without
+          connecting their bank account.
+        </div>
         <div class="meta-grid">
           <div class="meta-item"><strong>Role</strong>UX Research & Full Stack</div>
           <div class="meta-item"><strong>Timeline</strong>2 Weeks (Solo Project)</div>
           <div class="meta-item"><strong>Core Tech</strong>Node.js, SQL, Vanilla JS, Figma</div>
         </div>
         <figure>
-          <img src="assets/Hero.png" alt="Latt Dashboard Mockup" onerror="this.style.height='400px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='Dashboard Preview'">
+          <img src="assets/Hero.png" alt="Latt Dashboard Mockup"
+            onerror="this.style.height='400px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='Dashboard Preview'">
           <figcaption>The Central Dashboard: Designed for immediate financial visibility.</figcaption>
         </figure>
       </header>
 
+      <section id="methodology">
+        <h2>02. Research Methodology</h2>
+        <ul>
+          <li>Heuristic Evaluation of 15 subscription management tools</li>
+          <li>Comparative Analysis of user flows and trust signals</li>
+          <li>Secondary Research on subscription economy trends</li>
+          <li>Ethical Framework Development for user trust and transparency</li>
+          <li>Subscription fatigue analysis</li>
+        </ul>
+      </section>
+
       <section id="research">
-        <h2>02. Research & Ethical Framework</h2>
+        <h2>03. Research & Ethical Framework</h2>
         <p>
-          The subscription economy thrives on "invisibility." Once a user subscribes, the system is designed to fade into the background. My goal was to invert this: <strong>How might we make financial commitments visible without being annoying?</strong>
+          The subscription economy thrives on "invisibility." Once a user subscribes, the system is designed to fade
+          into the background. My goal was to invert this: <strong>How might we make financial commitments visible
+            without being annoying?</strong>
         </p>
-        <h3>The "Anxiety Gap" Finding</h3>
+        <h3>The Scale of The Problem</h3>
         <p>
-          I conducted a comparative analysis of 15 subscription management tools. A distinct pattern emerged: trust drops significantly when applications request banking credentials (OAuth/Plaid) before demonstrating value.
+          This is not an isolated experience. Research shows
+          <strong>74% of consumers forget about recurring
+            charges</strong>, and nearly 1 in 5 don't know how
+          many subscriptions they're currently paying for.
+          The average person manages 12 active subscriptions
+          simultaneously — yet most interfaces are designed
+          to stay invisible rather than transparent.
+        </p>
+        <div class="insight">
+          <strong>Source:</strong> C+R Research Consumer
+          Spending Study 2024 · Kadence International
+          Subscription Report 2024
+        </div>
+        <h3>Trust and Onboarding Friction</h3>
+        <p>
+          A comparative analysis of 15 subscription management tools shows a distinct pattern emerged: trust
+          drops significantly when applications request banking credentials (OAuth/Plaid) before demonstrating value.
         </p>
         <div class="insight">
           <strong>Key Insight:</strong>
-          Users treat payment processing not as a technical step, but as a moment of vulnerability. A system that hides logic during this phase increases anxiety.
+          Users treat payment processing not as a technical step, but as a moment of vulnerability. A system that hides
+          logic during this phase increases anxiety.
         </div>
       </section>
 
       <section id="feasibility">
-        <h2>03. Balancing Feasibility & Usability</h2>
+        <h2>04. Balancing Feasibility & Usability</h2>
         <p>
-          <strong>The Automation Bottleneck:</strong> The ideal user experience for a subscription manager is "Zero-Input" discovery via open banking APIs (e.g., Plaid). However, the implementation costs and security compliance requirements (SOC2) rendered this unfeasible for the MVP architecture.
+          <strong>The Automation Bottleneck:</strong> The ideal user experience for a subscription manager is
+          "Zero-Input" discovery via open banking APIs (e.g., Plaid). However, the implementation costs and security
+          compliance requirements (SOC2) rendered this unfeasible for the MVP architecture.
         </p>
         <p>
-          <strong>The Pivot: From Automation to Agency.</strong> Rather than shipping a broken or insecure automation feature, I pivoted to a <strong>Manual Entry Model</strong>. The design challenge shifted from "data display" to "data input efficiency."
+          <strong>The Pivot: From Automation to Agency.</strong> Rather than shipping a broken or insecure automation
+          feature, I pivoted to a <strong>Manual Entry Model</strong>. The design challenge shifted from "data display"
+          to "data input efficiency."
         </p>
         <figure>
-          <img src="assets/manuall-entry-logic.png" alt="Manual Entry Form with horizontal grouping" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: Manual Entry Form]'">
-          <figcaption>Cognitive Offloading: Utilizing input grouping (Currency + Amount) and predictive categorization to reduce friction.</figcaption>
+          <img src="assets/manuall-entry-logic.png" alt="Manual Entry Form with horizontal grouping"
+            onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: Manual Entry Form]'">
+          <figcaption>Cognitive Offloading: Utilizing input grouping (Currency + Amount) and predictive categorization
+            to reduce friction.</figcaption>
         </figure>
         <p>
-          By placing related fields (Currency + Amount) in a horizontal flex-row within the codebase, I reduced the vertical scanning distance, making the manual process feel less like data entry and more like a quick check-in.
+          By placing related fields (Currency + Amount) in a horizontal flex-row within the codebase, I reduced the
+          vertical scanning distance, making the manual process feel less like data entry and more like a quick
+          check-in.
         </p>
       </section>
 
       <section id="logic">
-        <h2>04. The Engineering Logic</h2>
-        <p>As a student of Mathematics, I approached the backend not just as data storage, but as a system of relations.</p>
-        
+        <h2>05. The Engineering Logic</h2>
+        <p>As a student of Mathematics, I approached the backend not just as data storage, but as a system of relations.
+        </p>
+
         <h3>Data-Driven Interface Design</h3>
         <p>
-          The interface is not just a layout; it is a direct visual manifestation of the underlying PostgreSQL schema. I utilized a <strong>Relational Database Management System (RDBMS)</strong> to normalize user data, separating <code>Users</code>, <code>Services</code>, and <code>Subscriptions</code> to ensure data integrity (3NF).
+          The interface is not just a layout; it is a direct visual manifestation of the underlying PostgreSQL schema. I
+          utilized a <strong>Relational Database Management System (RDBMS)</strong> to normalize user data, separating
+          <code>Users</code>, <code>Services</code>, and <code>Subscriptions</code> to ensure data integrity (3NF).
         </p>
         <figure>
-          <img src="assets/db-to-ui-map.png" alt="Schema to Screen Mapping" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: DB Schema -> UI Map]'">
-          <figcaption>Schema-to-Screen Mapping: Visualizing how the 3NF database structure dictates the Dashboard hierarchy.</figcaption>
+          <img src="assets/db-to-ui-map.png" alt="Schema to Screen Mapping"
+            onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: DB Schema -> UI Map]'">
+          <figcaption>Schema-to-Screen Mapping: Visualizing how the 3NF database structure dictates the Dashboard
+            hierarchy.</figcaption>
         </figure>
         <p>
-          <strong>Query-Driven Layout:</strong> The "Upcoming Bills" card is the result of an SQL query (`ORDER BY renewal_date ASC`). This ensures the user's <strong>Mental Model</strong> (prioritizing immediate debts) aligns perfectly with the <strong>System Model</strong> (temporal sorting of data).
+          <strong>Query-Driven Layout:</strong> The "Upcoming Bills" card is the result of an SQL query (`ORDER BY
+          renewal_date ASC`). This ensures the user's <strong>Mental Model</strong> (prioritizing immediate debts)
+          aligns perfectly with the <strong>System Model</strong> (temporal sorting of data).
         </p>
 
         <h3>The "Game Loop" Analogy</h3>
-        <p>In code, handling recurring payments is similar to handling input in a game loop. When building a racing game, we don't write code for every single time the player presses the horn. Instead, we write a <strong>Callback Function</strong> that listens for the event.</p>
+        <p>In code, handling recurring payments is similar to handling input in a game loop. When building a racing
+          game, we don't write code for every single time the player presses the horn. Instead, we write a
+          <strong>Callback Function</strong> that listens for the event.
+        </p>
         <div class="code-concept">
           <strong>Conceptual Logic:</strong><br>
-          Just as the game listens for <code>onPress(horn)</code>, the Latt backend listens for <code>onDate(renewal)</code>.<br><br>
-          Instead of hard-coding dates, the system uses a cron-job (the game loop) to check for <code>renewal_date <= today</code> and triggers the <code>processPayment()</code> callback.
+          Just as the game listens for <code>onPress(horn)</code>, the Latt backend listens for
+          <code>onDate(renewal)</code>.<br><br>
+          Instead of hard-coding dates, the system uses a cron-job (the game loop) to check for
+          <code>renewal_date <= today</code> and triggers the <code>processPayment()</code> callback.
         </div>
       </section>
 
       <section id="design">
-        <h2>05. Interface Design</h2>
+        <h2>06. Interface Design</h2>
         <p>With the logic in place, the interface needed to reflect the system's status clearly.</p>
         <h3>Wireframing the "Happy Path"</h3>
-        <p>I started with low-fidelity sketches focusing on the hierarchy of information. The priority was <strong>Next Bill Date</strong> and <strong>Cost</strong>.</p>
+        <p>I started with low-fidelity sketches focusing on the hierarchy of information. The priority was <strong>Next
+            Bill Date</strong> and <strong>Cost</strong>.</p>
         <figure>
-          <img src="assets/Home-Logged-In.png" alt="Wireframes" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='Wireframe Evolution'">
+          <img src="assets/Home-Logged-In.png" alt="Wireframes"
+            onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='Wireframe Evolution'">
           <figcaption>Evolution from Low-Fidelity Wireframe to High-Fidelity UI.</figcaption>
         </figure>
       </section>
 
       <section id="intentionality">
-        <h2>06. Intentionality & Micro-interactions</h2>
+        <h2>07. Intentionality & Micro-interactions</h2>
         <p>
-          Every pixel must have a purpose. I specifically focused on the "Cancel Subscription" flow to ensure the design did not rely on dark patterns, but rather on clear communication.
+          Every pixel must have a purpose. I specifically focused on the "Cancel Subscription" flow to ensure the design
+          did not rely on dark patterns, but rather on clear communication.
         </p>
         <figure>
-          <img src="assets/button-logic.png" alt="Red Button Exploration vs Final Decision" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: Red Button Psychology]'">
-          <figcaption>Leveraging Mental Models: Using "Ghost Buttons" to provide necessary friction without overwhelming visual weight.</figcaption>
+          <img src="assets/button-logic.png" alt="Red Button Exploration vs Final Decision"
+            onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: Red Button Psychology]'">
+          <figcaption>Leveraging Mental Models: Using "Ghost Buttons" to provide necessary friction without overwhelming
+            visual weight.</figcaption>
         </figure>
         <p>
-          <strong>Rationale:</strong> I leveraged the user's existing mental model where red indicates a destructive action. However, a solid red button creates excessive visual weight. By utilizing an outline style (Ghost Button), I maintained the caution signal acting as a necessary <strong>friction point</strong>, forcing the user to pause, without dominating the interface.
+          <strong>Rationale:</strong> I leveraged the user's existing mental model where red indicates a destructive
+          action. However, a solid red button creates excessive visual weight. By utilizing an outline style (Ghost
+          Button), I maintained the caution signal acting as a necessary <strong>friction point</strong>, forcing the
+          user to pause, without dominating the interface.
         </p>
       </section>
 
       <section id="failure">
-        <h2>07. Resilience & Failure Analysis</h2>
+        <h2>08. Resilience & Failure Analysis</h2>
         <p>In HCI, the "Happy Path" (when everything works) is easy. The real challenge is the "Unhappy Path."</p>
 
         <h3>Constraint-Based Design</h3>
         <p>
-            <strong>Critique of Generic Feedback:</strong> High cognitive load occurs when errors are vague ("Error!"). This forces the user to scan the entire form to locate the mistake.
+          <strong>Critique of Generic Feedback:</strong> High cognitive load occurs when errors are vague ("Error!").
+          This forces the user to scan the entire form to locate the mistake.
         </p>
         <figure>
-            <img src="assets/error-logic.png" alt="Error Handling Evolution" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: Error States]'">
-            <figcaption>From Ambiguity to Clarity: Evolution of the error state to reduce the Gulf of Evaluation.</figcaption>
+          <img src="assets/error-logic.png" alt="Error Handling Evolution"
+            onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: Error States]'">
+          <figcaption>From Ambiguity to Clarity: Evolution of the error state to reduce the Gulf of Evaluation.
+          </figcaption>
         </figure>
         <p>
-            <strong>The Solution (False Affordance):</strong> In early iterations, the "Continue" button remained active during errors. The final design disables the primary action until valid input is detected. Furthermore, addressing Network Errors, I added an 'Exit' button to satisfy Nielsen’s heuristic of <strong>User Control and Freedom</strong>.
+          <strong>The Solution (False Affordance):</strong> In early iterations, the "Continue" button remained active
+          during errors. The final design disables the primary action until valid input is detected. Furthermore,
+          addressing Network Errors, I added an 'Exit' button to satisfy Nielsen’s heuristic of <strong>User Control and
+            Freedom</strong>.
         </p>
 
         <h3>Interactive Failure Demo</h3>
@@ -502,21 +685,25 @@ input, select {
       </section>
 
       <section id="roadmap">
-        <h2>08. Future Roadmap: Defining the MVP</h2>
+        <h2>09. Future Roadmap: Defining the MVP</h2>
         <p>
-           A key part of engineering is knowing what <em>not</em> to build.
+          A key part of engineering is knowing what <em>not</em> to build.
         </p>
         <figure>
-          <img src="assets/v2-prototype.png" alt="Code Screenshot + Alert Popup" onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: V2 Roadmap Alert]'">
-          <figcaption>Honest Prototyping: Using hard-coded alerts to test feature desirability before investing in feasibility.</figcaption>
+          <img src="assets/v2-prototype.png" alt="Code Screenshot + Alert Popup"
+            onerror="this.style.height='300px'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='[Image: V2 Roadmap Alert]'">
+          <figcaption>Honest Prototyping: Using hard-coded alerts to test feature desirability before investing in
+            feasibility.</figcaption>
         </figure>
         <p>
-            <strong>Desirability vs. Feasibility:</strong> For complex features like PDF parsing (OCR), I implemented "Wizard of Oz" placeholders. By using hard-coded alerts to signal future intent, I established a clear boundary between the MVP and the V2 roadmap, avoiding technical debt on unvalidated features.
+          <strong>Desirability vs. Feasibility:</strong> For complex features like PDF parsing (OCR), I implemented
+          "Wizard of Oz" placeholders. By using hard-coded alerts to signal future intent, I established a clear
+          boundary between the MVP and the V2 roadmap, avoiding technical debt on unvalidated features.
         </p>
       </section>
 
       <section id="prototype">
-        <h2>09. Live Prototype</h2>
+        <h2>10. Live Prototype</h2>
         <p>I built this functional component to test the "Add Subscription" flow logic.</p>
         <div class="prototype-container">
           <div class="prototype-header">
@@ -530,43 +717,83 @@ input, select {
           </div>
         </div>
         <div class="insight" style="background: #eef9f0; border-left-color: var(--success);">
-          <strong>Engineering Note:</strong> This prototype uses a local Javascript array to simulate the SQL database response.
+          <strong>Engineering Note:</strong> This prototype uses a local Javascript array to simulate the SQL database
+          response.
         </div>
       </section>
 
       <section id="reflection">
-        <h2>10. Reflection & Learnings</h2>
-        <p>Building Latt taught me that <strong>UX is dependent on Backend Architecture</strong>. You cannot design a "Transparent" UI if your database is opaque.</p>
-        <p>If I were to continue this project, I would implement the Plaid API to move beyond manual entry, but only <em>after</em> the user has manually tracked their first subscription, maintaining the trust-first onboarding flow.</p>
+        <h2>11. Reflection & Learnings</h2>
+        <p>
+          Building Latt taught me that
+          <strong>UX is dependent on Backend
+            Architecture</strong>. You cannot design a
+          "Transparent" UI if your database is opaque.
+        </p>
+        <p>
+          The most important decision wasn't visual — it
+          was the pivot from automation to manual entry.
+          Choosing user trust over feature completeness
+          taught me that ethical design sometimes means
+          building less.
+        </p>
+        <p>
+          If I were to continue this project, I would
+          implement the Plaid API to move beyond manual
+          entry, but only <em>after</em> the user has
+          manually tracked their first subscription,
+          maintaining the trust-first onboarding flow.
+        </p>
+        <p>
+          <strong>What I would do differently:</strong>
+          I would conduct user testing earlier in the
+          process rather than relying solely on heuristic
+          evaluation. Watching real users interact with
+          the manual entry form would have surfaced
+          friction points faster than analysis alone.
+        </p>
+      </section>
+      <section id="references">
+        <h2>12. References</h2>
+        <ul>
+          <li>C+R Research Consumer Spending Study 2024</li>
+          <li>Kadence International Subscription Report 2024</li>
+          <li>UX Collective: The Subscription Economy and the Ethics of UX Design</li>
+          <li>Nielsen Norman Group: Heuristic Evaluation and User Testing</li>
+        </ul>
+        <h3>Research Papers</h3>
+          <li ><a
+              href="https://download.ssrn.com/25/01/08/ssrn_id5076118_code7207861.pdf?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEMT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQDbq1hnHTBx8hJeHmdDpIcKcNBkFXYEtWKWPDLvDjpx0gIgcmjQsAqNvAriRY9mBTiBLHWlwKc8cehqXPUMgfXw5I8qxwUIjf%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAEGgwzMDg0NzUzMDEyNTciDJAnIFBMnsAkigxlASqbBacoKxo%2BQ1eHKzF3N6xYnuDoP4hldI8haLh1j9lUPBMg7OZMlyowPjGks%2Fz%2BQRuRyi%2FNtTdHTkMb5IFTsMyMnbzN1%2B3gbqoTzub2ded8D6ms8Io%2FJ6B9vzYA5aA2WuOVoMSGfoll%2F9tEX1JKgDMdjxvqZMuYMcdGNBJiSbvbrW4fTrTbJtIvgxnA9oLrmAGWp4D8HH2XdMu%2BDFHeo5MPbAnioMyl3qxpSb8tlvbEPcFORkTlnx65p7fE7YKLxM9Xebtlq%2FoSWuIe%2BUVEWPdWT6TXiyZWNMM349hviijvLYcILEEXOO%2BwUuySj%2FihTKtxlHdPthHyqn8JzWAvtnal%2BZmfSfVEMSQ2IH24025logR0sbWSwWSjbMTgk2URAsrtbQNcHFNU%2Bx6MBm3puDLVg%2F0n%2FF6akSOBVuadDaFD%2FfzWyDPKF6UizS%2BVz5RhuGVKJpra%2BDZhmWfMb5Ge6Hrpnuo%2F3scTRn1es0EixOS%2FbQvh1%2BIcggJPA7xMP8uuUMba43FasRFlsi%2FcNOPjm9E6pXIA1PX%2BZGa1ohxmPEejS6naIm8zvzh4bFdU87duv0DRucRV%2BAa9VC0PNWK6bFsgZn%2B2k2r2TmYTrn9TCxj9hZCsmr6oMoBPeLLbE1es5pmiGzw2WP8A0RLRBoNe%2BO3X0BpQKR4ucD87mXD6vvE9fvLb6jKVr8i3%2BvpeKaHN2R%2BrRDI083CFkv9onoKwoQRetq2SRTe1x%2BmXuT8ZEZukuUoeSedtc7GHk%2F6gOd1CkCB5Dewv2OXbw3%2Fn%2F0qj8PAfkY5kqwq6qlg%2B%2Fl8wXM1O1rQoNitc1FK3VMQR4z51Fr3bmwcn5hXL3KNX7YpwkF64%2FiiQuUzJVebIbbLmMfYVrYhEaTicgz5MH77mm1QwwY%2FK0QY6sQHzAjTVDFg0uGAoVW0fNkbSyNCu0WLv28Tz0goKUjcoi09HPPe5Vgggr0BkcEJ84yXFOxAq5Fv1rcntLEfdIT5wj9A5ogAMQlxf2pwd8zdHOyAU9%2BUwI49tROhvbM5SC4QWhZQULnLtdwlpB1NyqGH7tWAu%2BLLLbAfrgOS7ibGM3nRDQs50oJ77pkDgmvzSyP8liZ2PxF%2BqDGDlJqeS3lX2llJr0ZtG%2FAIbE5ywbQCldSs%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260617T124836Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAUPUUPRWE66YCQ7DL%2F20260617%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=67cef337954f7fc977bb870d4fe275551b7e64ad02e838bba86d6ddda49e96a4&abstractId=5076118">
+              Research Paper: The Subscription fatigue problem</a></li>
       </section>
     </main>
   </div>
 
-<script>
-  // MOCK DATABASE
-  let subscriptions = [
-    { id: 1, name: "Netflix Premium", cost: 649, renewalDate: "2026-02-15", category: "Entertainment" },
-    { id: 2, name: "Spotify", cost: 119, renewalDate: "2026-01-30", category: "Entertainment" },
-    { id: 3, name: "AWS Cloud", cost: 1200, renewalDate: "2026-03-01", category: "Utilities" }
-  ];
+  <script>
+    // MOCK DATABASE
+    let subscriptions = [
+      { id: 1, name: "Netflix Premium", cost: 649, renewalDate: "2026-02-15", category: "Entertainment" },
+      { id: 2, name: "Spotify", cost: 119, renewalDate: "2026-01-30", category: "Entertainment" },
+      { id: 3, name: "AWS Cloud", cost: 1200, renewalDate: "2026-03-01", category: "Utilities" }
+    ];
 
-  // DOM ELEMENTS
-  const list = document.getElementById("subscriptions-list");
-  const emptyState = document.getElementById("empty-state");
-  const authModal = document.getElementById("auth-modal");
-  const addModal = document.getElementById("add-sub-modal");
+    // DOM ELEMENTS
+    const list = document.getElementById("subscriptions-list");
+    const emptyState = document.getElementById("empty-state");
+    const authModal = document.getElementById("auth-modal");
+    const addModal = document.getElementById("add-sub-modal");
 
-  // RENDER LIST
-  function render() {
-    if (subscriptions.length === 0) {
-      list.style.display = "none";
-      emptyState.style.display = "block";
-    } else {
-      list.style.display = "grid";
-      emptyState.style.display = "none";
-      list.innerHTML = "";
-      subscriptions.forEach(sub => {
-        list.innerHTML += `
+    // RENDER LIST
+    function render() {
+      if (subscriptions.length === 0) {
+        list.style.display = "none";
+        emptyState.style.display = "block";
+      } else {
+        list.style.display = "grid";
+        emptyState.style.display = "none";
+        list.innerHTML = "";
+        subscriptions.forEach(sub => {
+          list.innerHTML += `
           <div class="subscription-item">
             <h3>${sub.name}</h3>
             <p><strong>₹${sub.cost}</strong> / month</p>
@@ -575,87 +802,80 @@ input, select {
             <button class="btn btn-fail btn-sm" onclick="removeSub(${sub.id})">Cancel Plan</button>
           </div>
         `;
+        });
+      }
+    }
+
+    // FORMAT DATE
+    function formatDate(dateString) {
+      const options = { day: 'numeric', month: 'short', year: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-IN', options);
+    }
+
+    // ADD SUB
+    document.getElementById("add-sub-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("sub-name").value;
+      const cost = document.getElementById("sub-cost").value;
+      const date = document.getElementById("sub-renewal").value;
+      const cat = document.getElementById("sub-category").value;
+
+      subscriptions.push({
+        id: Date.now(),
+        name,
+        cost: parseInt(cost),
+        renewalDate: date,
+        category: cat
       });
-    }
-  }
-
-  // FORMAT DATE
-  function formatDate(dateString) {
-    const options = { day: 'numeric', month: 'short', year: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-IN', options);
-  }
-
-  // ADD SUB
-  document.getElementById("add-sub-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("sub-name").value;
-    const cost = document.getElementById("sub-cost").value;
-    const date = document.getElementById("sub-renewal").value;
-    const cat = document.getElementById("sub-category").value;
-
-    subscriptions.push({
-      id: Date.now(),
-      name,
-      cost: parseInt(cost),
-      renewalDate: date,
-      category: cat
-    });
-    render();
-    addModal.style.display = "none";
-    document.getElementById("add-sub-form").reset();
-  });
-
-  // REMOVE SUB
-  function removeSub(id) {
-    if(confirm("Are you sure you want to cancel this subscription?")) {
-      subscriptions = subscriptions.filter(s => s.id !== id);
       render();
-    }
-  }
+      addModal.style.display = "none";
+      document.getElementById("add-sub-form").reset();
+    });
 
-  // SIMULATIONS
-  function simulateFailure() {
-    const out = document.getElementById("demo-output");
-    out.style.display = "block";
-    out.style.borderLeft = "4px solid var(--error)";
-    out.innerHTML = `
+    // REMOVE SUB
+    function removeSub(id) {
+      if (confirm("Are you sure you want to cancel this subscription?")) {
+        subscriptions = subscriptions.filter(s => s.id !== id);
+        render();
+      }
+    }
+
+    // SIMULATIONS
+    function simulateFailure() {
+      const out = document.getElementById("demo-output");
+      out.style.display = "block";
+      out.style.borderLeft = "4px solid var(--error)";
+      out.innerHTML = `
       <h4 style="color:var(--error); margin-bottom:8px">⚠ Payment Failed</h4>
       <p style="margin:0">No money was deducted. We confirmed your account was not charged.</p>
     `;
-  }
+    }
 
-  function simulateSuccess() {
-    const out = document.getElementById("demo-output");
-    out.style.display = "block";
-    out.style.borderLeft = "4px solid var(--success)";
-    out.innerHTML = `
+    function simulateSuccess() {
+      const out = document.getElementById("demo-output");
+      out.style.display = "block";
+      out.style.borderLeft = "4px solid var(--success)";
+      out.innerHTML = `
       <h4 style="color:var(--success); margin-bottom:8px">✔ Payment Successful</h4>
       <p style="margin:0">Your subscription is active until your next billing date.</p>
     `;
-  }
+    }
 
-  // MODAL TRIGGERS
-  document.getElementById("login-btn").onclick = () => authModal.style.display = "block";
-  document.getElementById("add-sub-btn").onclick = () => addModal.style.display = "block";
+    // MODAL TRIGGERS
+    document.getElementById("add-sub-btn").onclick = () => addModal.style.display = "block";
 
-  // CLOSE MODALS
-  document.querySelectorAll(".close").forEach(el => {
-    el.onclick = function() { this.closest(".modal").style.display = "none"; }
-  });
-  window.onclick = (e) => {
-    if (e.target.classList.contains('modal')) e.target.style.display = "none";
-  }
+    // CLOSE MODALS
+    document.querySelectorAll(".close").forEach(el => {
+      el.onclick = function () { this.closest(".modal").style.display = "none"; }
+    });
+    window.onclick = (e) => {
+      if (e.target.classList.contains('modal')) e.target.style.display = "none";
+    }
 
-  // INIT
-  render();
-</script>
+    // INIT
+    render();
+  </script>
 
 </body>
 
 </html>
-
-
-
-
-
-
